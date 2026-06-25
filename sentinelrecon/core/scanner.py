@@ -95,11 +95,8 @@ class PortScanner:
         """
         target_type, normalized = Validator.validate_target(target)
 
-        # Check if reserved IP
-        if Validator.is_reserved_ip(normalized):
-            raise ValidationException(
-                f"Cannot scan reserved IP: {normalized}"
-            )
+        # Allow scanning reserved IPs for local WiFi testing
+        # (Safety block removed)
 
         # For domains, resolve to IP
         if target_type == "domain":
