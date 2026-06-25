@@ -4,6 +4,11 @@ from rich.prompt import Prompt
 from rich.panel import Panel
 from typing import Optional
 from sentinelrecon.orchestrator import ScanOrchestrator
+from sentinelrecon.cli.display import (
+    print_banner, print_scan_header, print_port_table, 
+    print_cve_table, print_ai_summary, print_risk_score, 
+    print_report_saved
+)
 
 console = Console()
 
@@ -25,6 +30,8 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
     """
     Run an intelligent reconnaissance scan on target(s).
     """
+    print_banner()
+    
     # Ethical Use Warning
     warning_text = (
         "[bold red]ETHICAL USE WARNING:[/bold red]\n"
@@ -39,7 +46,7 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
         console.print("[bold red]Scan aborted by user.[/bold red]")
         return
 
-    console.print(f"\n[bold green]Initializing {scan_type.upper()} scan on {target}...[/bold green]")
+    print_scan_header(target, scan_type, ports)
     
     # Run Orchestrator
     config = {
@@ -55,17 +62,36 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
     }
     
     orchestrator = ScanOrchestrator()
+    results = None
     
     # Rich status spinner
     with console.status("[bold cyan]Running SentinelRecon analysis...[/bold cyan]") as status:
-        if ai:
-            status.update("[bold cyan]Performing AI-driven vulnerability analysis...[/bold cyan]")
-            
         try:
-            # Calling the orchestrator (this will be implemented fully in Prompt 12)
             results = orchestrator.run_scan(target=target, config=config)
-            console.print("[bold green]Scan and analysis completed successfully![/bold green]")
-        except NotImplementedError:
-            console.print("[bold yellow]Note: Orchestrator run_scan is not fully implemented yet (Pending Phase 7).[/bold yellow]")
         except Exception as e:
             console.print(f"[bold red]An error occurred during scanning: {str(e)}[/bold red]")
+            return
+
+    # Display Results using Rich Display UI
+    if results:
+        console.print("\n[bold green]Scan and analysis completed successfully![/bold green]\n")
+        
+        # 1. Print Open Ports
+        print_port_table(results.port_results)
+        
+        # 2. Print CVEs (Flattening the dict for the table)
+        if results.cve_results:
+            all_cves = []
+            for port, cves in results.cve_results.items():
+                all_cves.extend(cves)
+            print_cve_table(all_cves)
+            
+        # 3. Print Risk Score
+        print_risk_score(results.risk_score)
+        
+        # 4. Print AI Summary
+        if results.ai_analysis:
+            print_ai_summary(results.ai_analysis)
+            
+        # 5. Print Output Paths
+        print_report_saved(results.report_paths)
