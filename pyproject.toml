@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinelrecon"
+version = "1.0.0"
+description = "AI-Powered Intelligent Reconnaissance Toolkit"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "SentinelRecon Team", email = "team@sentinelrecon.dev"}
+]
+keywords = ["security", "reconnaissance", "port-scanning", "vulnerabilities", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Topic :: Internet",
+    "Topic :: System :: Networking",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-mock>=3.14.0",
+    "pytest-cov>=5.0.0",
+    "black>=24.4.2",
+    "flake8>=7.0.0",
+    "isort>=5.13.2",
+    "mypy>=1.11.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sentinelrecon/sentinelrecon"
+Documentation = "https://sentinelrecon.dev"
+Repository = "https://github.com/sentinelrecon/sentinelrecon.git"
+
+[project.scripts]
+sentinelrecon = "sentinelrecon.cli.main:cli"
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
