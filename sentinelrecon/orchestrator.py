@@ -152,9 +152,12 @@ class ScanOrchestrator:
                 scan_type = config.get('scan_type', 'connect')
                 self.logger.info(f"Running {scan_type} scan on ports {port_str}")
                 
-                # Assuming scanner.scan returns a list of dictionaries or objects
-                # Note: Exact method signature depends on Phase 4 implementation
-                raw_ports = self.scanner.scan(target, port_range_start, port_range_end, scan_type=scan_type)
+                from sentinelrecon.core.scanner import ScanType
+                scan_enum = ScanType(scan_type.lower()) if isinstance(scan_type, str) else scan_type
+                port_list = list(range(port_range_start, port_range_end + 1))
+                
+                raw_ports_dict = self.scanner.scan(target, port_list, scan_type=scan_enum)
+                raw_ports = raw_ports_dict.values() if isinstance(raw_ports_dict, dict) else raw_ports_dict
                 
                 # Normalizing results to dict if needed
                 for p in raw_ports:
@@ -249,13 +252,16 @@ class ScanOrchestrator:
         # Build scan_data dict for reporting
         scan_data = {
             'target': target,
+            'target_input': target,
             'scan_type': config.get('scan_type', 'connect'),
             'started_at': started_at,
             'completed_at': completed_at,
             'port_results': port_results,
             'cve_results': cve_results,
             'ai_analysis': ai_analysis,
-            'risk_score': risk_score
+            'risk_score': risk_score,
+            'port_range_start': port_range_start,
+            'port_range_end': port_range_end
         }
 
         # 8. Report Generation
@@ -264,8 +270,8 @@ class ScanOrchestrator:
             output_dir = config.get('output_dir', './output')
             formats = config.get('formats', ['html', 'pdf'])
             
-            try:
-                for fmt in formats:
+            for fmt in formats:
+                try:
                     fmt = fmt.strip().lower()
                     if fmt == 'html':
                         content = self.report_generator.generate_html(scan_data)
@@ -279,13 +285,13 @@ class ScanOrchestrator:
                         content = self.report_generator.generate_json(scan_data)
                         path = self.report_generator.save(content, 'json', output_dir)
                         report_paths.append(path)
-            except Exception as e:
-                self.logger.error(f"Report generation failed: {e}")
+                except Exception as e:
+                    self.logger.error(f"Report generation for {fmt} failed: {e}")
 
         # 9. Database Persistence
         if self.db:
             try:
-                self.db.save_scan(scan_data, report_paths)
+                self.db.save_scan(scan_data)
             except Exception as e:
                 self.logger.error(f"Database persistence failed: {e}")
 
