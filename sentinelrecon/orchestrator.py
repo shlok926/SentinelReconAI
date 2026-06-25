@@ -211,7 +211,7 @@ class ScanOrchestrator:
 
         # 6. Risk Scoring
         risk_score = {'overall_score': 0, 'label': 'INFO'}
-        if self.risk_scorer:
+        if self.risk_scorer and cve_results:
             try:
                 # Passing findings to risk scorer, exact signature based on Phase 5
                 # We'll use a mocked calculation if the exact method differs
@@ -291,7 +291,10 @@ class ScanOrchestrator:
         # 9. Database Persistence
         if self.db:
             try:
-                self.db.save_scan(scan_data)
+                db_scan_data = scan_data.copy()
+                db_scan_data['risk_score'] = risk_score.get('overall_score', 0.0)
+                db_scan_data['risk_label'] = risk_score.get('label', 'INFO')
+                self.db.save_scan(db_scan_data)
             except Exception as e:
                 self.logger.error(f"Database persistence failed: {e}")
 

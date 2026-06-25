@@ -67,11 +67,12 @@ def print_port_table(port_results: List[Dict[str, Any]]):
         version = result.get('service_version', '-') if isinstance(result, dict) else getattr(result, 'service_version', '-')
         risk = result.get('risk_level', 'INFO') if isinstance(result, dict) else getattr(result, 'risk_level', 'INFO')
 
+        state_val = state.value if hasattr(state, 'value') else str(state)
         color = get_risk_color(risk)
         
         table.add_row(
             port_num,
-            state.upper(),
+            state_val.upper(),
             service,
             version,
             f"[{color}]{risk}[/{color}]"
