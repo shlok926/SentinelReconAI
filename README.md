@@ -1,5 +1,9 @@
 # 🛡️ SentinelRecon AI
 
+<p align="center">
+  <img src="docs/images/logo.png" alt="SentinelRecon Logo" width="250">
+</p>
+
 **AI-Powered Intelligent Network Reconnaissance & Threat Intelligence Toolkit**
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
