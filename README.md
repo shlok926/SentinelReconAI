@@ -2,7 +2,7 @@
   
   <img src="docs/images/logo.png" alt="SentinelRecon Logo" width="200">
 
-  # SentinelRecon AI 🛡️
+  # SentinelRecon AI
 
   **Enterprise-Grade AI-Powered Network Reconnaissance & Threat Intelligence Toolkit**
 
@@ -11,40 +11,40 @@
   [![License MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
   [![Status](https://img.shields.io/badge/Status-Production_Ready-10B981?style=for-the-badge)]()
 
-  [🚀 Quickstart](#-quickstart) • [📚 Architecture](#-architecture-overview) • [🤝 Contribute](#-contributing)
+  [Quickstart](#quickstart) • [Architecture](#architecture-overview) • [Contribute](#contributing)
 
 </div>
 
 ---
 
-## 📑 Table of Contents
-1. [Executive Summary](#-executive-summary)
-2. [Purpose](#-purpose)
-3. [Scope](#-scope)
-4. [Background](#-background)
-5. [Key Capabilities](#-key-capabilities)
-6. [Architecture Overview](#-architecture-overview)
-7. [Tech Stack](#-tech-stack)
-8. [Repository Structure](#-repository-structure)
-9. [Quickstart](#-quickstart)
-10. [Design Decisions](#-design-decisions)
-11. [Engineering Considerations](#-engineering-considerations)
-12. [Documentation Index](#-documentation-index)
-13. [Risks](#-risks)
-14. [Assumptions](#-assumptions)
-15. [Future Improvements](#-future-improvements)
-16. [Contributing](#-contributing)
-17. [References](#-references)
+## Table of Contents
+1. [Executive Summary](#executive-summary)
+2. [Purpose](#purpose)
+3. [Scope](#scope)
+4. [Background](#background)
+5. [Key Capabilities](#key-capabilities)
+6. [Architecture Overview](#architecture-overview)
+7. [Tech Stack](#tech-stack)
+8. [Repository Structure](#repository-structure)
+9. [Quickstart](#quickstart)
+10. [Design Decisions](#design-decisions)
+11. [Engineering Considerations](#engineering-considerations)
+12. [Documentation Index](#documentation-index)
+13. [Risks](#risks)
+14. [Assumptions](#assumptions)
+15. [Future Improvements](#future-improvements)
+16. [Contributing](#contributing)
+17. [References](#references)
 
 ---
 
-## 📝 Executive Summary
+## Executive Summary
 **SentinelRecon AI** is a next-generation security auditing tool that bridges the gap between raw network reconnaissance and actionable threat intelligence. By orchestrating port scanning, global OSINT feeds (AbuseIPDB, VirusTotal), and Large Language Model (LLM) analysis, it provides defenders and security researchers with context-rich, enterprise-grade vulnerability reports in seconds.
 
-## 🎯 Purpose
+## Purpose
 Traditional scanners (like Nmap) output raw data that requires manual interpretation and cross-referencing against CVE databases. SentinelRecon's purpose is to **automate the correlation process**, instantly mapping open ports to known vulnerabilities, checking IP reputation globally, and generating AI-driven remediation strategies—saving SOC analysts hours of manual triage.
 
-## 🔭 Scope
+## Scope
 **In-Scope:**
 - TCP SYN, Connect, and UDP port scanning.
 - Banner grabbing and service enumeration.
@@ -57,10 +57,10 @@ Traditional scanners (like Nmap) output raw data that requires manual interpreta
 - Active exploitation or payload delivery (strict read-only reconnaissance).
 - Distributed denial of service (DDoS) testing.
 
-## 📖 Background
+## Background
 As cyber threats become more sophisticated, the "Time to Remediate" (TTR) metric is critical. A security engineer might discover an open port, but finding out if that specific IP is currently participating in global botnets requires querying multiple disjointed systems. SentinelRecon was built to unify these distinct workflows into a single CLI command.
 
-## ⚡ Key Capabilities
+## Key Capabilities
 | Capability | Description |
 | :--- | :--- |
 | **Intelligent Recon** | Multi-mode port scanning with dynamic service detection. |
@@ -68,7 +68,7 @@ As cyber threats become more sophisticated, the "Time to Remediate" (TTR) metric
 | **AI Triage** | Claude-3 integration for risk scoring and plain-English remediation advice. |
 | **Reporting** | Beautiful Jinja2-powered HTML/PDF enterprise reports. |
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```mermaid
 graph TD
@@ -97,14 +97,14 @@ graph TD
     end
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Core Language:** Python 3.9+
 - **CLI Framework:** Click, Rich (for terminal UI)
 - **APIs & AI:** Requests, Anthropic Claude 3 API
 - **Reporting:** Jinja2 (HTML), WeasyPrint (PDF)
 - **Data Persistence:** SQLite3
 
-## 📁 Repository Structure
+## Repository Structure
 ```text
 SentinelReconAI/
 ├── sentinelrecon/
@@ -117,7 +117,7 @@ SentinelReconAI/
 └── .env.example        # Environment Configuration
 ```
 
-## 🚀 Quickstart
+## Quickstart
 
 **1. Clone & Install**
 ```bash
@@ -137,35 +137,35 @@ cp .env.example .env
 python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80 --type connect
 ```
 
-## 🧠 Design Decisions
+## Design Decisions
 1. **Modular Architecture:** The system is heavily decoupled. The `ThreatIntelManager` and `AIAnalyzer` can fail or be disabled (e.g., `--no-ai`) without crashing the core `PortScanner`.
 2. **Local SQLite Over Postgres:** Designed as a personal auditing tool, SQLite provides zero-configuration state persistence, ensuring scan history remains entirely local and private.
 3. **Jinja2 Static Reporting:** Instead of building a heavy React SPA for viewing results, HTML static reports provide highly portable, shareable, and instantly rendering dashboards.
 
-## ⚙️ Engineering Considerations
+## Engineering Considerations
 - **Graceful Degradation:** If an API rate limit is hit (e.g., VirusTotal), the tool catches the error, marks the module as "Skipped," and successfully compiles the final report using the remaining data.
 - **Data Privacy:** Internal IP addresses (192.168.x.x, 10.x.x.x) are automatically detected, and Threat Intelligence API calls are dynamically skipped to prevent leaking internal infrastructure maps to global databases.
 
-## 📚 Documentation Index
+## Documentation Index
 - [Configuration Guide](docs/CONFIG.md) *(Pending)*
 - [API Reference](docs/API.md) *(Pending)*
 - [Ethical Guidelines](docs/ETHICS.md) *(Pending)*
 
-## ⚠️ Risks
+## Risks
 - **LLM Hallucinations:** Generative AI may occasionally suggest outdated remediation steps.
 - **API Quotas:** Aggressive scanning on large subnets will rapidly exhaust free-tier API limits on AbuseIPDB and VirusTotal.
 
-## 🤔 Assumptions
+## Assumptions
 - The user has legal authorization to scan the target IP/Domain.
 - The user possesses the necessary API keys for advanced context generation.
 - The host system can resolve DNS hostnames to IPv4 addresses.
 
-## 🔮 Future Improvements
+## Future Improvements
 - **Cloud Asset Enumeration:** Detecting misconfigured AWS S3 buckets and Azure Blobs.
 - **Async Scanning:** Migrating the socket scanner to `asyncio` for a 10x performance boost on /24 subnets.
 - **Shodan Integration:** Direct Shodan API hookups for historical port state comparison.
 
-## 🤝 Contributing
+## Contributing
 Contributions are welcome! Please ensure that all pull requests pass `flake8` linting and include unit tests for new modules. 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -173,7 +173,7 @@ Contributions are welcome! Please ensure that all pull requests pass `flake8` li
 4. Push to the Branch
 5. Open a Pull Request
 
-## 🔗 References
+## References
 - [Mitre ATT&CK Framework](https://attack.mitre.org/)
 - [AbuseIPDB API v2 Docs](https://docs.abuseipdb.com/)
 - [VirusTotal API v3 Docs](https://docs.virustotal.com/reference/overview)
