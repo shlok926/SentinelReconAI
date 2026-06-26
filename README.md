@@ -161,9 +161,9 @@ python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80 --t
 - **Data Privacy:** Internal IP addresses (192.168.x.x, 10.x.x.x) are automatically detected, and Threat Intelligence API calls are dynamically skipped to prevent leaking internal infrastructure maps to global databases.
 
 ## Documentation Index
-- [Configuration Guide](docs/CONFIG.md) *(Pending)*
-- [API Reference](docs/API.md) *(Pending)*
-- [Ethical Guidelines](docs/ETHICS.md) *(Pending)*
+- [Configuration Guide](docs/CONFIG.md)
+- [API Reference](docs/API.md)
+- [Ethical Guidelines](docs/ETHICS.md)
 
 ## Risks
 - **LLM Hallucinations:** Generative AI may occasionally suggest outdated remediation steps.
