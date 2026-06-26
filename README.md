@@ -75,17 +75,61 @@ python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80,443
 
 *Note: Threat Intelligence queries are automatically skipped for private/local IP ranges to save your API quota.*
 
-## 📁 Repository Structure
-```text
-SentinelReconAI/
-├── sentinelrecon/
-│   ├── cli/            # Rich Terminal Interface (Commands & Display)
-│   ├── core/           # Port Scanner & Threat Intel Managers
-│   ├── data/           # SQLite Database Operations
-│   ├── reports/        # HTML/PDF Jinja2 Report Generators
-│   └── analysis/       # AI Integration & Risk Scoring
-├── output/             # Generated HTML/PDF Reports go here
-└── .env.example        # Environment Variables Template
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    %% Define Styles
+    classDef user fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff,rx:5px
+    classDef core fill:#2b6cb0,stroke:#3182ce,stroke-width:2px,color:#fff,rx:5px
+    classDef intel fill:#805ad5,stroke:#9f7aea,stroke-width:2px,color:#fff,rx:5px
+    classDef ai fill:#00a3c4,stroke:#0bc5ea,stroke-width:2px,color:#fff,rx:5px
+    classDef data fill:#c53030,stroke:#f56565,stroke-width:2px,color:#fff,rx:5px
+    classDef report fill:#38a169,stroke:#48bb78,stroke-width:2px,color:#fff,rx:5px
+
+    %% Nodes
+    U[User / Terminal]:::user
+    O(ScanOrchestrator):::core
+
+    subgraph Core Engines
+        PS[Port Scanner]:::core
+        CM[CVE Mapper]:::core
+        TI[Threat Intel Manager]:::intel
+    end
+
+    subgraph External APIs
+        VT[(VirusTotal)]:::intel
+        AB[(AbuseIPDB)]:::intel
+        NVD[(NVD DB)]:::core
+    end
+
+    subgraph Analysis Layer
+        AI[Claude AI Analyzer]:::ai
+        RS[Risk Scorer]:::ai
+    end
+
+    subgraph Data & Presentation
+        DB[(SQLite Database)]:::data
+        RG[Report Generator]:::report
+        UI[Rich CLI Display]:::report
+    end
+
+    %% Connections
+    U -->|Initiates Scan| O
+    O -->|1. Scans Ports| PS
+    O -->|2. Maps Vulns| CM
+    O -->|3. Fetches IP Rep| TI
+
+    TI -.->|API Call| VT
+    TI -.->|API Call| AB
+    CM -.->|Lookup| NVD
+
+    O -->|4. Generates Context| AI
+    O -->|5. Calculates Score| RS
+
+    O -->|6. Saves History| DB
+    O -->|7. Renders Output| RG
+    O -->|8. Shows Table| UI
 ```
 
 ## 🤝 Contributing
