@@ -1,63 +1,63 @@
-# 🛡️ SentinelRecon AI
+<div align="center">
+  
+  <img src="docs/images/logo.png" alt="SentinelRecon Logo" width="200">
 
-<p align="center">
-  <img src="docs/images/logo.png" alt="SentinelRecon Logo" width="250">
-</p>
+  # SentinelRecon AI 🛡️
 
-**AI-Powered Intelligent Network Reconnaissance & Threat Intelligence Toolkit**
+  **Enterprise-Grade AI-Powered Network Reconnaissance & Threat Intelligence Toolkit**
+  
+  *An advanced security auditor that performs intelligent port scanning, real-time threat intelligence correlation (AbuseIPDB, VirusTotal), CVE mapping, and AI-driven vulnerability remediation.*
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+  [![AI Powered](https://img.shields.io/badge/AI-Claude_3-7C3AED?style=for-the-badge&logo=anthropic)](https://anthropic.com/)
+  [![License MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
+  [![Status](https://img.shields.io/badge/Status-Production_Ready-10B981?style=for-the-badge)]()
 
-> ⚠️ **DISCLAIMER:** SentinelRecon AI is designed strictly for **authorized** security auditing, defensive analysis, and CTF environments. Scanning third-party networks without explicit, written consent is illegal and unethical. The developers assume no liability for misuse.
+  [🚀 Quick Start](#-quick-start) • [📚 Architecture](#%EF%B8%8F-architecture) • [⚙️ Configuration](#%EF%B8%8F-configuration) • [🤝 Contribute](#-contributing)
 
-## 🌟 Overview
+</div>
 
-**SentinelRecon** transcends traditional port scanners by combining network mapping with Real-Time Threat Intelligence (AbuseIPDB, VirusTotal) and Generative AI (Anthropic Claude). It not only tells you *what* is open, but also analyzes the security implications, scores the risk, and generates enterprise-grade HTML/PDF reports.
+---
 
-### ✨ Key Features
+## 🎯 Key Features at a Glance
 
-- **Advanced Port Scanning:** SYN, Connect, and UDP scanning with dynamic service detection.
-- **Global Threat Intelligence (v2.0):** Real-time IP reputation checks using AbuseIPDB and VirusTotal.
-- **Vulnerability Mapping (CVEs):** Automatic cross-referencing of detected services against known CVEs.
-- **AI-Powered Analysis:** Context-aware vulnerability summaries and remediation steps via AI analysis.
-- **Stunning UI & Reporting:** Rich terminal UI and beautifully styled HTML/PDF report generation (Jinja2).
-- **SQLite Persistence:** Automatically saves all scan history and metrics locally.
+| 🔍 Intelligent Recon | 🚨 Threat Intelligence | 🤖 AI Analysis | 📊 Enterprise Reports |
+| :--- | :--- | :--- | :--- |
+| **Multi-mode Scanning** (SYN, Connect, UDP) with service/banner grabbing. | **Real-time API Checks** via AbuseIPDB and VirusTotal to detect malicious IPs. | **Claude Integration** to provide context-aware risk scoring and remediation steps. | **Beautiful UI/UX** with Rich Terminal outputs and HTML/PDF Jinja2 Reports. |
 
-## 🚀 Installation
+---
+
+## 📑 Table of Contents
+- [Disclaimer](#%EF%B8%8F-disclaimer)
+- [Quick Start](#-quick-start)
+- [Usage Guide](#-usage-guide)
+- [Architecture](#%EF%B8%8F-architecture)
+- [Configuration](#%EF%B8%8F-configuration)
+- [Repository Structure](#-repository-structure)
+
+---
+
+## ⚠️ Disclaimer
+> **SentinelRecon AI is designed strictly for authorized security auditing, defensive analysis, and CTF environments.** Scanning third-party networks without explicit, written consent is illegal and unethical. The developers assume no liability for misuse.
+
+---
+
+## 🚀 Quick Start
 
 ### 1. Prerequisites
 - **Python 3.9+**
 - For PDF Report Generation, you must have [WeasyPrint dependencies (GTK3)](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation) installed on your system. 
 
-### 2. Setup
-
-Clone the repository and install dependencies:
-
+### 2. Installation
 ```bash
 git clone https://github.com/shlok926/SentinelReconAI.git
 cd SentinelReconAI
 pip install -r requirements.txt
 ```
 
-### 3. Environment Configuration
+---
 
-SentinelRecon relies on API keys for Threat Intel and AI features. Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
-```
-Edit the `.env` file and add your keys (All are optional, but required for advanced features):
-```env
-# AI Analysis (Optional but recommended)
-CLAUDE_API_KEY="your-anthropic-key-here"
-
-# Threat Intelligence (Optional, Free)
-ABUSEIPDB_API_KEY="your-abuseipdb-key-here"
-VT_API_KEY="your-virustotal-key-here"
-```
-
-## 💻 Usage
+## 💻 Usage Guide
 
 SentinelRecon is executed via a powerful CLI interface.
 
@@ -74,6 +74,27 @@ python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80,443
 ```
 
 *Note: Threat Intelligence queries are automatically skipped for private/local IP ranges to save your API quota.*
+
+---
+
+## ⚙️ Configuration
+
+SentinelRecon relies on API keys for Threat Intel and AI features. Create a `.env` file in the root directory:
+
+```bash
+cp .env.example .env
+```
+Edit the `.env` file and add your keys (All are optional, but required for advanced features):
+```env
+# AI Analysis (Optional but recommended)
+CLAUDE_API_KEY="your-anthropic-key-here"
+
+# Threat Intelligence (Optional, Free)
+ABUSEIPDB_API_KEY="your-abuseipdb-key-here"
+VT_API_KEY="your-virustotal-key-here"
+```
+
+---
 
 ## 🏗️ Architecture
 
@@ -131,6 +152,23 @@ graph TD
     O -->|7. Renders Output| RG
     O -->|8. Shows Table| UI
 ```
+
+---
+
+## 📁 Repository Structure
+```text
+SentinelReconAI/
+├── sentinelrecon/
+│   ├── cli/            # Rich Terminal Interface (Commands & Display)
+│   ├── core/           # Port Scanner & Threat Intel Managers
+│   ├── data/           # SQLite Database Operations
+│   ├── reports/        # HTML/PDF Jinja2 Report Generators
+│   └── analysis/       # AI Integration & Risk Scoring
+├── output/             # Generated HTML/PDF Reports go here
+└── .env.example        # Environment Variables Template
+```
+
+---
 
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome!
