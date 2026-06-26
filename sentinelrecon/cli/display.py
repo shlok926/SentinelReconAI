@@ -136,7 +136,29 @@ def print_threat_intel(intel_data: Dict[str, Any]):
         text.append(f"Origin Country             : ", style="bold")
         text.append(f"{country}", style="white")
         
-        console.print(Panel(text, title="[bold magenta]Global Threat Intelligence[/bold magenta]", border_style="magenta", padding=(1, 2)))
+        console.print(Panel(text, title="[bold magenta]AbuseIPDB[/bold magenta]", border_style="magenta", padding=(1, 2)))
+        
+    vt = intel_data.get('virustotal', {})
+    if vt.get('status') == 'success':
+        mal = vt.get('malicious', 0)
+        sus = vt.get('suspicious', 0)
+        harm = vt.get('harmless', 0)
+        net = vt.get('network', 'Unknown')
+        
+        mal_color = "green" if mal == 0 else "bold red"
+        sus_color = "green" if sus == 0 else "yellow"
+        
+        text = Text()
+        text.append(f"Malicious Flags            : ", style="bold")
+        text.append(f"{mal}\n", style=mal_color)
+        text.append(f"Suspicious Flags           : ", style="bold")
+        text.append(f"{sus}\n", style=sus_color)
+        text.append(f"Harmless Votes             : ", style="bold")
+        text.append(f"{harm}\n", style="green")
+        text.append(f"Network Owner              : ", style="bold")
+        text.append(f"{net}", style="cyan")
+        
+        console.print(Panel(text, title="[bold blue]VirusTotal[/bold blue]", border_style="blue", padding=(1, 2)))
 
 def print_ai_summary(ai_analysis: Any):
     """Prints the AI Analysis summary in a styled panel."""

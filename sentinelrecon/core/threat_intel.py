@@ -1,8 +1,15 @@
 import os
+import socket
 import requests
 import logging
 from typing import Dict, Any, Optional
 from datetime import datetime
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 class ThreatIntelManager:
     """
@@ -20,13 +27,15 @@ class ThreatIntelManager:
             "virustotal": os.environ.get("VT_API_KEY", "")
         }
         
-    def is_public_ip(self, ip: str) -> bool:
+    def is_public_ip(self, ip_or_domain: str) -> bool:
         """Check if an IP is public. Threat Intel only works on public IPs."""
         import ipaddress
         try:
+            # Resolve domain to IP first
+            ip = socket.gethostbyname(ip_or_domain)
             return not ipaddress.ip_address(ip).is_private
-        except ValueError:
-            return False # Invalid IP or domain (we should resolve domains first)
+        except Exception:
+            return False # Invalid IP or domain
             
     def check_abuseipdb(self, ip: str) -> Dict[str, Any]:
         """Check IP reputation on AbuseIPDB"""
@@ -58,6 +67,37 @@ class ThreatIntelManager:
             self.logger.error(f"AbuseIPDB request failed: {e}")
             return {"status": "error", "reason": str(e)}
 
+    def check_virustotal(self, ip: str) -> Dict[str, Any]:
+        """Check IP reputation on VirusTotal"""
+        key = self.keys.get("virustotal")
+        if not key:
+            return {"status": "skipped", "reason": "No API key"}
+            
+        url = f"https://www.virustotal.com/api/v3/ip_addresses/{ip}"
+        headers = {
+            "accept": "application/json",
+            "x-apikey": key
+        }
+        
+        try:
+            response = requests.request("GET", url, headers=headers)
+            if response.status_code == 200:
+                data = response.json()['data']['attributes']
+                stats = data.get("last_analysis_stats", {})
+                return {
+                    "status": "success",
+                    "malicious": stats.get("malicious", 0),
+                    "suspicious": stats.get("suspicious", 0),
+                    "harmless": stats.get("harmless", 0),
+                    "undetected": stats.get("undetected", 0),
+                    "network": data.get("network", "Unknown"),
+                    "country": data.get("country", "Unknown")
+                }
+            return {"status": "error", "reason": f"HTTP {response.status_code}"}
+        except Exception as e:
+            self.logger.error(f"VirusTotal request failed: {e}")
+            return {"status": "error", "reason": str(e)}
+
     def gather_intelligence(self, target_ip: str) -> Dict[str, Any]:
         """Main method to query all available threat intel feeds"""
         
@@ -68,11 +108,18 @@ class ThreatIntelManager:
             
         self.logger.info(f"Gathering Threat Intelligence for {target_ip}...")
         
+        # Resolve target to an actual IP for AbuseIPDB
+        try:
+            resolved_ip = socket.gethostbyname(target_ip)
+        except Exception:
+            resolved_ip = target_ip
+        
         intel_report = {
             "target": target_ip,
+            "resolved_ip": resolved_ip,
             "timestamp": datetime.now().isoformat(),
-            "abuseipdb": self.check_abuseipdb(target_ip),
-            # Shodan and VirusTotal will be added here!
+            "abuseipdb": self.check_abuseipdb(resolved_ip),
+            "virustotal": self.check_virustotal(resolved_ip)
         }
         
         return intel_report

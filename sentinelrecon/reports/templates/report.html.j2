@@ -263,6 +263,23 @@
         </div>
         {% endif %}
 
+        {% if threat_intel and threat_intel.get('virustotal', {}).status == 'success' %}
+        {% set vt = threat_intel.virustotal %}
+        <div class="card">
+            <h2 style="color: #00BFFF;">VirusTotal</h2>
+            <div style="background-color: rgba(0, 191, 255, 0.05); border: 1px solid rgba(0, 191, 255, 0.2); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between;">
+                <div>
+                    <p><strong>Malicious Flags:</strong> <span style="color: {% if vt.malicious > 0 %}var(--critical){% else %}var(--low){% endif %}; font-weight: bold;">{{ vt.malicious }}</span></p>
+                    <p><strong>Suspicious Flags:</strong> <span style="color: {% if vt.suspicious > 0 %}var(--high){% else %}var(--low){% endif %}; font-weight: bold;">{{ vt.suspicious }}</span></p>
+                </div>
+                <div>
+                    <p><strong>Harmless Votes:</strong> <span style="color: var(--low); font-weight: bold;">{{ vt.harmless }}</span></p>
+                    <p><strong>Network Owner:</strong> {{ vt.network }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- CVE Findings -->
         <div class="card">
             <h2>CVE Findings</h2>
