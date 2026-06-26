@@ -9,6 +9,7 @@
   [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
   [![AI Powered](https://img.shields.io/badge/AI-Claude_3-7C3AED?style=for-the-badge&logo=anthropic)](https://anthropic.com/)
   [![License MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
+  [![Build](https://img.shields.io/github/actions/workflow/status/shlok926/SentinelReconAI/ci.yml?branch=main&style=for-the-badge&logo=github)](https://github.com/shlok926/SentinelReconAI/actions)
   [![Status](https://img.shields.io/badge/Status-Production_Ready-10B981?style=for-the-badge)]()
 
   [Quickstart](#quickstart) • [Architecture](#architecture-overview) • [Contribute](#contributing)
