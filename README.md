@@ -1,143 +1,92 @@
-# SentinelRecon
+# 🛡️ SentinelRecon AI
 
-**AI-Powered Intelligent Reconnaissance Toolkit**
+**AI-Powered Intelligent Network Reconnaissance & Threat Intelligence Toolkit**
 
-🔍 Advanced network reconnaissance and vulnerability insight tool for security learners and professionals.
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Overview
+> ⚠️ **DISCLAIMER:** SentinelRecon AI is designed strictly for **authorized** security auditing, defensive analysis, and CTF environments. Scanning third-party networks without explicit, written consent is illegal and unethical. The developers assume no liability for misuse.
 
-SentinelRecon combines **port scanning**, **service detection**, **CVE mapping**, and **AI-powered analysis** into a single, beginner-friendly tool. Instead of raw scan output, get intelligent insights in seconds.
+## 🌟 Overview
 
-### Key Features
+**SentinelRecon** transcends traditional port scanners by combining network mapping with Real-Time Threat Intelligence (AbuseIPDB, VirusTotal) and Generative AI (Anthropic Claude). It not only tells you *what* is open, but also analyzes the security implications, scores the risk, and generates enterprise-grade HTML/PDF reports.
 
-✅ **Fast Port Scanning** - SYN, TCP Connect, UDP scans  
-✅ **Service Detection** - Identify services and versions  
-✅ **Banner Grabbing** - Extract service information  
-✅ **CVE Lookup** - Integrated NVD database queries  
-✅ **AI Analysis** - Claude-powered intelligent insights  
-✅ **Risk Scoring** - Automatic severity assessment  
-✅ **Professional Reports** - HTML, PDF, JSON exports  
-✅ **Scan History** - SQLite-backed persistence  
-✅ **Dual Interface** - CLI + optional Web UI  
+### ✨ Key Features
 
-## Installation
+- **Advanced Port Scanning:** SYN, Connect, and UDP scanning with dynamic service detection.
+- **Global Threat Intelligence (v2.0):** Real-time IP reputation checks using AbuseIPDB and VirusTotal.
+- **Vulnerability Mapping (CVEs):** Automatic cross-referencing of detected services against known CVEs.
+- **AI-Powered Analysis:** Context-aware vulnerability summaries and remediation steps via AI analysis.
+- **Stunning UI & Reporting:** Rich terminal UI and beautifully styled HTML/PDF report generation (Jinja2).
+- **SQLite Persistence:** Automatically saves all scan history and metrics locally.
 
-### Requirements
-- Python 3.9+
-- pip or conda
+## 🚀 Installation
 
-### Quick Start
+### 1. Prerequisites
+- **Python 3.9+**
+- For PDF Report Generation, you must have [WeasyPrint dependencies (GTK3)](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation) installed on your system. 
+
+### 2. Setup
+
+Clone the repository and install dependencies:
 
 ```bash
-# Clone repository
-git clone https://github.com/sentinelrecon/sentinelrecon.git
-cd sentinelrecon
-
-# Install dependencies
+git clone https://github.com/shlok926/SentinelReconAI.git
+cd SentinelReconAI
 pip install -r requirements.txt
+```
 
-# Set up configuration
+### 3. Environment Configuration
+
+SentinelRecon relies on API keys for Threat Intel and AI features. Create a `.env` file in the root directory:
+
+```bash
 cp .env.example .env
-# Edit .env with your API keys
+```
+Edit the `.env` file and add your keys (All are optional, but required for advanced features):
+```env
+# AI Analysis (Optional but recommended)
+CLAUDE_API_KEY="your-anthropic-key-here"
 
-# Initialize database
-python scripts/setup_db.py
+# Threat Intelligence (Optional, Free)
+ABUSEIPDB_API_KEY="your-abuseipdb-key-here"
+VT_API_KEY="your-virustotal-key-here"
 ```
 
-## Usage
+## 💻 Usage
 
-### CLI Commands
+SentinelRecon is executed via a powerful CLI interface.
 
+### Basic Scan
+Scan a target using default options (Ports 1-1024):
 ```bash
-# Scan a target
-sentinelrecon scan --target 192.168.1.1
-
-# Scan with options
-sentinelrecon scan --target example.com --ports 1-1024 --type syn
-
-# View scan history
-sentinelrecon history --last 10
-
-# Configure settings
-sentinelrecon config --set-api-key claude
-
-# Generate report from past scan
-sentinelrecon report --scan-id abc123 --format pdf
+python -m sentinelrecon.cli.main scan --target 192.168.1.1
 ```
 
-### Web UI
-
+### Advanced Scan
+Scan specific ports, skip AI, and output professional reports to a custom directory:
 ```bash
-# Start Flask web server
-python -m sentinelrecon.web.app
-
-# Open browser to http://localhost:5000
+python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80,443 --type connect --no-ai --output ./my_reports
 ```
 
-## Configuration
+*Note: Threat Intelligence queries are automatically skipped for private/local IP ranges to save your API quota.*
 
-Edit `.env` file with:
-- `CLAUDE_API_KEY` - Your Anthropic API key
-- `NVD_API_KEY` - Your NVD API key (optional)
-- `DEFAULT_SCAN_TIMEOUT` - Timeout in seconds
-- `DEFAULT_THREAD_COUNT` - Number of scanner threads
-
-## Architecture
-
-```
-sentinelrecon/
-├── core/              # Scanning engine, banner grabber
-├── analysis/          # CVE mapper, risk scorer, AI analyzer
-├── data/              # Database models and operations
-├── reports/           # Report generation (HTML/PDF/JSON)
-├── web/               # Flask web UI (optional)
-├── cli/               # Click CLI interface
-└── utils/             # Helper utilities and validators
+## 📁 Repository Structure
+```text
+SentinelReconAI/
+├── sentinelrecon/
+│   ├── cli/            # Rich Terminal Interface (Commands & Display)
+│   ├── core/           # Port Scanner & Threat Intel Managers
+│   ├── data/           # SQLite Database Operations
+│   ├── reports/        # HTML/PDF Jinja2 Report Generators
+│   └── analysis/       # AI Integration & Risk Scoring
+├── output/             # Generated HTML/PDF Reports go here
+└── .env.example        # Environment Variables Template
 ```
 
-## Development
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome!
+Feel free to check the [issues page](https://github.com/shlok926/SentinelReconAI/issues).
 
-```bash
-# Install dev dependencies
-make install-dev
-
-# Run tests
-make test
-
-# Format code
-make format
-
-# Run linter
-make lint
-```
-
-## Documentation
-
-See [docs/](docs/) for complete documentation:
-- [INSTALL.md](docs/INSTALL.md) - Detailed installation guide
-- [USAGE.md](docs/USAGE.md) - Complete usage guide
-- [API.md](docs/API.md) - API reference
-- [ETHICS.md](docs/ETHICS.md) - Legal and ethical policy
-
-## License
-
-MIT License - see LICENSE file for details
-
-## Contributing
-
-Contributions welcome! Please open issues or submit pull requests.
-
-## Support
-
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review sample scans in docs/
-
-## Status
-
-**v1.0.0** - May 2026
-- Initial release with core features
-- CLI fully functional
-- Web UI included
-- Database persistence working
+## 📝 License
+This project is [MIT](LICENSE) licensed.
