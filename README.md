@@ -68,6 +68,24 @@ As cyber threats become more sophisticated, the "Time to Remediate" (TTR) metric
 | **AI Triage** | Claude-3 integration for risk scoring and plain-English remediation advice. |
 | **Reporting** | Beautiful Jinja2-powered HTML/PDF enterprise reports. |
 
+---
+
+## 📸 Screenshots & Demos
+
+### Rich Terminal Interface
+<p align="center">
+  <img src="docs/images/cli_banner.png" alt="CLI Banner" width="48%">
+  <img src="docs/images/cli_threat_intel.png" alt="CLI Threat Intel" width="48%">
+</p>
+
+### Enterprise HTML Reports
+<p align="center">
+  <img src="docs/images/html_report_ports.png" alt="HTML Report Ports" width="48%">
+  <img src="docs/images/html_report_intel.png" alt="HTML Threat Intel" width="48%">
+</p>
+
+---
+
 ## Architecture Overview
 
 ```mermaid
