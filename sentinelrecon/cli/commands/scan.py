@@ -7,7 +7,7 @@ from sentinelrecon.orchestrator import ScanOrchestrator
 from sentinelrecon.cli.display import (
     print_banner, print_scan_header, print_port_table, 
     print_cve_table, print_ai_summary, print_risk_score, 
-    print_report_saved
+    print_report_saved, print_threat_intel
 )
 
 console = Console()
@@ -78,6 +78,10 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
         
         # 1. Print Open Ports
         print_port_table(results.port_results)
+        
+        # 1.5 Print Threat Intel
+        if results.threat_intel:
+            print_threat_intel(results.threat_intel)
         
         # 2. Print CVEs (Flattening the dict for the table)
         if results.cve_results:

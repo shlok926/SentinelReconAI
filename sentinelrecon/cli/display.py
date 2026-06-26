@@ -114,6 +114,30 @@ def print_cve_table(cves: List[Dict[str, Any]]):
         
     console.print(table)
 
+def print_threat_intel(intel_data: Dict[str, Any]):
+    """Prints threat intelligence in a panel."""
+    if not intel_data or intel_data.get('status') == 'skipped':
+        return
+        
+    abuse = intel_data.get('abuseipdb', {})
+    if abuse.get('status') == 'success':
+        score = abuse.get('abuse_confidence_score', 0)
+        reports = abuse.get('total_reports', 0)
+        country = abuse.get('country', 'Unknown')
+        
+        # Color coding the score
+        score_color = "green" if score == 0 else "yellow" if score < 50 else "bold red"
+        
+        text = Text()
+        text.append(f"AbuseIPDB Confidence Score : ", style="bold")
+        text.append(f"{score}%\n", style=score_color)
+        text.append(f"Total Malicious Reports    : ", style="bold")
+        text.append(f"{reports}\n", style="white")
+        text.append(f"Origin Country             : ", style="bold")
+        text.append(f"{country}", style="white")
+        
+        console.print(Panel(text, title="[bold magenta]Global Threat Intelligence[/bold magenta]", border_style="magenta", padding=(1, 2)))
+
 def print_ai_summary(ai_analysis: Any):
     """Prints the AI Analysis summary in a styled panel."""
     if not ai_analysis:

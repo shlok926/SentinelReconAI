@@ -19,6 +19,7 @@ try:
     from sentinelrecon.reports.report_generator import ReportGenerator
     # Assuming Database is in sentinelrecon.data.database
     from sentinelrecon.data.database import Database
+    from sentinelrecon.core.threat_intel import ThreatIntelManager
 except ImportError:
     pass # Will handle gracefully if some modules are mocked/missing
 
@@ -32,9 +33,10 @@ class ScanReport:
     completed_at: str
     port_results: List[Dict[str, Any]]
     cve_results: Dict[str, Any]
-    ai_analysis: Any
-    risk_score: Any
-    report_paths: List[str]
+    threat_intel: Any = None
+    ai_analysis: Any = None
+    risk_score: Any = None
+    report_paths: List[str] = None
 
 
 class ScanOrchestrator:
@@ -57,6 +59,7 @@ class ScanOrchestrator:
         self.risk_scorer = None
         self.ai_analyzer = None
         self.report_generator = None
+        self.threat_intel = None
         self.db = None
         
         self._initialize_modules()
@@ -111,6 +114,12 @@ class ScanOrchestrator:
             self.db = Database()
         except ImportError:
             self.logger.warning("Database module not found.")
+
+        try:
+            from sentinelrecon.core.threat_intel import ThreatIntelManager
+            self.threat_intel = ThreatIntelManager()
+        except ImportError:
+            self.logger.warning("ThreatIntelManager module not found.")
 
     def run_scan(self, target: str, config: Dict[str, Any]) -> ScanReport:
         """
@@ -227,7 +236,15 @@ class ScanOrchestrator:
             except Exception as e:
                 self.logger.error(f"Risk scoring failed: {e}")
 
-        # 7. AI Analysis
+        # 7. Threat Intelligence Enrichment
+        threat_data = None
+        if self.threat_intel:
+            try:
+                threat_data = self.threat_intel.gather_intelligence(target)
+            except Exception as e:
+                self.logger.error(f"Threat intel failed: {e}")
+
+        # 8. AI Analysis
         ai_analysis = None
         if config.get('ai', True) and self.ai_analyzer:
             try:
@@ -258,6 +275,7 @@ class ScanOrchestrator:
             'completed_at': completed_at,
             'port_results': port_results,
             'cve_results': cve_results,
+            'threat_intel': threat_data,
             'ai_analysis': ai_analysis,
             'risk_score': risk_score,
             'port_range_start': port_range_start,
@@ -306,6 +324,7 @@ class ScanOrchestrator:
             completed_at=completed_at,
             port_results=port_results,
             cve_results=cve_results,
+            threat_intel=threat_data,
             ai_analysis=ai_analysis,
             risk_score=risk_score,
             report_paths=report_paths
