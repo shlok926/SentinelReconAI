@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelRecon Report - {{ target }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0D0F14;
+            --card-bg: #161A23;
+            --border: #252A35;
+            --accent: #00FF88;
+            --accent-blue: #00BFFF;
+            --text: #E2E8F0;
+            --muted: #8892A4;
+            --critical: #FF4444;
+            --high: #FF8C00;
+            --medium: #FFD700;
+            --low: #00FF88;
+            --info: #00BFFF;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 30px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3 {
+            color: var(--text);
+            font-weight: 700;
+            margin-top: 0;
+        }
+        
+        h1 {
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        /* Summary Section */
+        .summary-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .summary-details p {
+            margin: 5px 0;
+            color: var(--muted);
+        }
+        
+        .summary-details strong {
+            color: var(--text);
+        }
+        
+        /* Risk Badges */
+        .risk-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+        
+        .badge-CRITICAL { background-color: rgba(255, 68, 68, 0.2); color: var(--critical); border: 1px solid var(--critical); }
+        .badge-HIGH { background-color: rgba(255, 140, 0, 0.2); color: var(--high); border: 1px solid var(--high); }
+        .badge-MEDIUM { background-color: rgba(255, 215, 0, 0.2); color: var(--medium); border: 1px solid var(--medium); }
+        .badge-LOW { background-color: rgba(0, 255, 136, 0.2); color: var(--low); border: 1px solid var(--low); }
+        .badge-INFO { background-color: rgba(0, 191, 255, 0.2); color: var(--info); border: 1px solid var(--info); }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Collapsible Sections */
+        details {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-blue);
+            outline: none;
+        }
+        
+        details[open] summary {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .cve-item {
+            padding: 15px;
+            border-left: 3px solid var(--border);
+            margin: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .cve-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .cve-id {
+            color: var(--high);
+            font-weight: bold;
+        }
+        
+        .cve-desc {
+            font-size: 0.95em;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .cve-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        
+        .cve-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Pre-formatted Text */
+        pre {
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            overflow-x: auto;
+            color: var(--text);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SentinelRecon Security Report</h1>
+        
+        <!-- Summary Card -->
+        <div class="card summary-card">
+            <div class="summary-details">
+                <h2>Target: <span class="font-mono" style="color: var(--accent);">{{ target }}</span></h2>
+                <p><strong>Scan Type:</strong> {{ scan_type | default('Full Scan') }}</p>
+                <p><strong>Started:</strong> {{ started_at }}</p>
+                <p><strong>Completed:</strong> {{ completed_at }}</p>
+            </div>
+            
+            {% set risk_lbl = risk_score.label | default('INFO') if risk_score is mapping else risk_score | default('INFO') %}
+            {% set risk_val = risk_score.overall_score | default('0') if risk_score is mapping else '' %}
+            
+            <div class="risk-badge badge-{{ risk_lbl }}">
+                Risk Score: {{ risk_val }} [{{ risk_lbl }}]
+            </div>
+        </div>
+
+        <!-- Open Ports Table -->
+        <div class="card">
+            <h2>Open Ports & Services</h2>
+            {% if port_results and port_results|length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Port/Proto</th>
+                        <th>State</th>
+                        <th>Service</th>
+                        <th>Version</th>
+                        <th>Risk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for port in port_results %}
+                    <tr>
+                        <td class="font-mono">{{ port.port | default(port.get('port')) }}/{{ port.protocol | default(port.get('protocol', 'tcp')) }}</td>
+                        <td>{{ port.state | default(port.get('state', 'open')) }}</td>
+                        <td>{{ port.service_name | default(port.get('service', 'unknown')) }}</td>
+                        <td class="font-mono">{{ port.service_version | default(port.get('version', '-')) }}</td>
+                        <td>
+                            {% set p_risk = port.risk_level | default(port.get('risk', 'INFO')) %}
+                            <span class="risk-badge badge-{{ p_risk }}" style="padding: 4px 8px; font-size: 0.8em;">{{ p_risk }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="color: var(--muted);">No open ports found or port results are empty.</p>
+            {% endif %}
+        </div>
+
+        <!-- Threat Intelligence -->
+        {% if threat_intel and threat_intel.status != 'skipped' %}
+        <div class="card">
+            <h2 style="color: #ff00ff;">Global Threat Intelligence</h2>
+            {% set abuse = threat_intel.get('abuseipdb', {}) %}
+            {% if abuse.status == 'success' %}
+            <div style="background-color: rgba(255, 0, 255, 0.05); border: 1px solid rgba(255, 0, 255, 0.2); padding: 15px; border-radius: 6px;">
+                <p><strong>AbuseIPDB Confidence Score:</strong> 
+                    <span style="color: {% if abuse.abuse_confidence_score == 0 %}var(--low){% elif abuse.abuse_confidence_score < 50 %}var(--medium){% else %}var(--critical){% endif %}; font-weight: bold;">
+                        {{ abuse.abuse_confidence_score }}%
+                    </span>
+                </p>
+                <p><strong>Total Malicious Reports:</strong> {{ abuse.total_reports }}</p>
+                <p><strong>Origin Country:</strong> {{ abuse.country }}</p>
+            </div>
+            {% else %}
+            <p style="color: var(--muted);">Threat Intel data could not be fetched.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- CVE Findings -->
+        <div class="card">
+            <h2>CVE Findings</h2>
+            {% if cve_results and cve_results.items()|length > 0 %}
+                {% for port, cves in cve_results.items() %}
+                <details>
+                    <summary>Port {{ port }} Findings ({{ cves|length }} Vulnerabilities)</summary>
+                    {% for cve in cves %}
+                    <div class="cve-item">
+                        <div class="cve-header">
+                            <span class="font-mono cve-id">{{ cve.cve_id | default(cve.get('id', 'Unknown')) }}</span>
+                            <span class="risk-badge badge-{{ cve.severity | default(cve.get('severity', 'HIGH')) }}" style="padding: 2px 6px; font-size: 0.7em;">
+                                CVSS: {{ cve.cvss_score | default(cve.get('cvss', 'N/A')) }}
+                            </span>
+                        </div>
+                        <div class="cve-desc">{{ cve.description | default(cve.get('description', 'No description provided.')) }}</div>
+                        <a href="{{ cve.reference_url | default(cve.get('url', '#')) }}" target="_blank" class="cve-link">View Reference &rarr;</a>
+                    </div>
+                    {% endfor %}
+                </details>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--muted);">No CVEs were mapped during this scan.</p>
+            {% endif %}
+        </div>
+
+        <!-- AI Analysis -->
+        <div class="card">
+            <h2>AI Analysis & Remediation</h2>
+            {% if ai_analysis %}
+            <pre class="font-mono">{% if ai_analysis is mapping %}{{ ai_analysis.summary | default(ai_analysis.get('ai_analysis', ai_analysis)) }}{% else %}{{ ai_analysis }}{% endif %}</pre>
+            {% else %}
+            <p style="color: var(--muted);">AI Analysis was not performed for this scan.</p>
+            {% endif %}
+        </div>
+        
+    </div>
+</body>
+</html>
