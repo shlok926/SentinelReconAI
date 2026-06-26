@@ -165,15 +165,40 @@ python -m sentinelrecon.cli.main scan --target scanme.nmap.org --ports 22,80 --t
 - **Async Scanning:** Migrating the socket scanner to `asyncio` for a 10x performance boost on /24 subnets.
 - **Shodan Integration:** Direct Shodan API hookups for historical port state comparison.
 
-## Contributing
-Contributions are welcome! Please ensure that all pull requests pass `flake8` linting and include unit tests for new modules. 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes
-4. Push to the Branch
-5. Open a Pull Request
+## 🤝 Contributing & Feedback
+Contributions, suggestions, and feedback are highly welcome!
 
-## References
-- [Mitre ATT&CK Framework](https://attack.mitre.org/)
-- [AbuseIPDB API v2 Docs](https://docs.abuseipdb.com/)
-- [VirusTotal API v3 Docs](https://docs.virustotal.com/reference/overview)
+- **Got suggestions or feature requests?** Feel free to open a new [Issue](https://github.com/shlok926/SentinelReconAI/issues) or share your ideas.
+- **Want to contribute?** Feel free to fork this repository, make your changes, and submit a Pull Request.
+
+---
+
+## ⭐ Show Your Support
+
+<div align="center">
+  <b>Love this tool? Help us grow:</b>
+</div>
+
+```text
+✨ Star the repository   (GitHub Star Button)
+🐛 Report bugs           (GitHub Issues)
+💡 Suggest features      (GitHub Discussions)
+📣 Share with others     (LinkedIn/Twitter)
+🤝 Contribute code       (Pull Requests)
+```
+
+---
+
+## 👤 Author & Contact
+
+<div align="center">
+  👨‍💻 <b>Shlok Thorat</b><br>
+  <i>Let's connect on LinkedIn, collaborate, and build amazing things together!</i><br><br>
+
+  [![Email](https://img.shields.io/badge/Email-shlokthorat29075@gmail.com-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:shlokthorat29075@gmail.com)
+  [![GitHub](https://img.shields.io/badge/GitHub-@shlok926-181717?style=flat&logo=github&logoColor=white)](https://github.com/shlok926)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-shlok--thorat--39916a405-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shlok-thorat-39916a405/)
+
+  <br><br>
+  Made with ❤️ by Shlok! for Cybersecurity Innovation • <a href="#sentinelrecon-ai">Back to Top</a>
+</div>
