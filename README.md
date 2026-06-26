@@ -18,23 +18,18 @@
 ---
 
 ## Table of Contents
-1. [Executive Summary](#executive-summary)
-2. [Purpose](#purpose)
-3. [Scope](#scope)
-4. [Background](#background)
-5. [Key Capabilities](#key-capabilities)
-6. [Architecture Overview](#architecture-overview)
-7. [Tech Stack](#tech-stack)
-8. [Repository Structure](#repository-structure)
-9. [Quickstart](#quickstart)
-10. [Design Decisions](#design-decisions)
-11. [Engineering Considerations](#engineering-considerations)
-12. [Documentation Index](#documentation-index)
-13. [Risks](#risks)
-14. [Assumptions](#assumptions)
-15. [Future Improvements](#future-improvements)
-16. [Contributing](#contributing)
-17. [References](#references)
+
+| | |
+|---|---|
+| 1. [Executive Summary](#executive-summary) | 10. [Design Decisions](#design-decisions) |
+| 2. [Purpose](#purpose) | 11. [Engineering Considerations](#engineering-considerations) |
+| 3. [Scope](#scope) | 12. [Documentation Index](#documentation-index) |
+| 4. [Background](#background) | 13. [Risks](#risks) |
+| 5. [Key Capabilities](#key-capabilities) | 14. [Assumptions](#assumptions) |
+| 6. [Architecture Overview](#architecture-overview) | 15. [Future Improvements](#future-improvements) |
+| 7. [Tech Stack](#tech-stack) | 16. [Contributing](#contributing--feedback) |
+| 8. [Repository Structure](#repository-structure) | 17. [References](#references) |
+| 9. [Quickstart](#quickstart) | |
 
 ---
 
