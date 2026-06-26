@@ -55,7 +55,6 @@ htmlcov/
 
 # Output
 output/
-reports/
 *.pdf
 *.html
 
