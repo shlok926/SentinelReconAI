@@ -25,20 +25,8 @@ console = Console()
 @click.option('--format', 'report_format', default='html,pdf', help='Report formats (e.g., "html,pdf,json")')
 @click.option('--mode', default='expert', type=click.Choice(['beginner', 'expert']), help='AI Analysis mode')
 @click.option('--profile', help='Use a saved scan profile name')
-@click.option('--cloud', type=click.Choice(['aws', 'azure', 'gcp']), help='Scan cloud infrastructure')
-@click.option('--aws-access-key', envvar='AWS_ACCESS_KEY_ID', help='AWS access key')
-@click.option('--aws-secret-key', envvar='AWS_SECRET_ACCESS_KEY', help='AWS secret key')
-@click.option('--aws-region', default='us-east-1', help='AWS region')
-@click.option('--azure-subscription', help='Azure subscription ID')
-@click.option('--azure-client-id', help='Azure client ID')
-@click.option('--azure-client-secret', help='Azure client secret')
-@click.option('--azure-tenant', help='Azure tenant ID')
-@click.option('--gcp-project', help='GCP project ID')
 def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool, 
-         cve: bool, output: str, report_format: str, mode: str, profile: Optional[str],
-         cloud: Optional[str], aws_access_key: Optional[str], aws_secret_key: Optional[str],
-         aws_region: Optional[str], azure_subscription: Optional[str], azure_client_id: Optional[str],
-         azure_client_secret: Optional[str], azure_tenant: Optional[str], gcp_project: Optional[str]):
+         cve: bool, output: str, report_format: str, mode: str, profile: Optional[str]):
     """
     Run an intelligent reconnaissance scan on target(s).
     """
@@ -70,16 +58,7 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
         'output_dir': output,
         'formats': report_format.split(','),
         'mode': mode,
-        'profile': profile,
-        'cloud_scan': cloud,
-        'aws_access_key': aws_access_key,
-        'aws_secret_key': aws_secret_key,
-        'aws_region': aws_region,
-        'azure_subscription_id': azure_subscription,
-        'azure_client_id': azure_client_id,
-        'azure_client_secret': azure_client_secret,
-        'azure_tenant_id': azure_tenant,
-        'gcp_project_id': gcp_project
+        'profile': profile
     }
     
     orchestrator = ScanOrchestrator()
@@ -101,12 +80,8 @@ def scan(target: str, ports: str, scan_type: str, banner: bool, ai: bool,
         print_port_table(results.port_results)
         
         # 1.5 Print Threat Intel
-        if getattr(results, 'threat_intel', None):
+        if results.threat_intel:
             print_threat_intel(results.threat_intel)
-            
-        # 1.8 Print Cloud Findings
-        if getattr(results, 'cloud_findings', None):
-            console.print(Panel(f"Cloud Risk Score: {results.cloud_findings.overall_risk_score}/100", title=f"{results.cloud_findings.cloud_provider} Cloud Findings", border_style="cyan"))
         
         # 2. Print CVEs (Flattening the dict for the table)
         if results.cve_results:

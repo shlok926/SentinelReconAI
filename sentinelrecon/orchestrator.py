@@ -35,7 +35,6 @@ class ScanReport:
     cve_results: Dict[str, Any]
     threat_intel: Any = None
     ai_analysis: Any = None
-    cloud_findings: Any = None
     risk_score: Any = None
     report_paths: List[str] = None
 
@@ -285,38 +284,6 @@ class ScanOrchestrator:
             except Exception as e:
                 self.logger.error(f"AI analysis failed: {e}")
 
-        # Cloud Enumeration Phase
-        cloud_findings = None
-        if config.get('cloud_scan'):
-            self.logger.info(f"Enumerating cloud assets for provider: {config.get('cloud_scan')}")
-            cloud_provider = config['cloud_scan'].lower()
-            
-            try:
-                if cloud_provider == 'aws':
-                    from sentinelrecon.integrations.aws_enumerator import AWSEnumerator
-                    aws = AWSEnumerator(
-                        config.get('aws_access_key', ''),
-                        config.get('aws_secret_key', ''),
-                        config.get('aws_region', 'us-east-1')
-                    )
-                    cloud_findings = aws.scan_all()
-                elif cloud_provider == 'azure':
-                    from sentinelrecon.integrations.azure_enumerator import AzureEnumerator
-                    azure = AzureEnumerator(
-                        config.get('azure_subscription_id', ''),
-                        config.get('azure_client_id', ''),
-                        config.get('azure_client_secret', ''),
-                        config.get('azure_tenant_id', '')
-                    )
-                    cloud_findings = azure.scan_all()
-                elif cloud_provider == 'gcp':
-                    from sentinelrecon.integrations.gcp_enumerator import GCPEnumerator
-                    gcp = GCPEnumerator(config.get('gcp_project_id', ''))
-                    cloud_findings = gcp.scan_all()
-                    
-            except Exception as e:
-                self.logger.error(f"Cloud enumeration failed: {e}")
-
         completed_at = datetime.now().isoformat()
 
         # Build scan_data dict for reporting
@@ -330,7 +297,6 @@ class ScanOrchestrator:
             'cve_results': cve_results,
             'threat_intel': threat_data,
             'ai_analysis': ai_analysis,
-            'cloud_findings': cloud_findings,
             'risk_score': risk_score,
             'port_range_start': port_range_start,
             'port_range_end': port_range_end
@@ -380,7 +346,6 @@ class ScanOrchestrator:
             cve_results=cve_results,
             threat_intel=threat_data,
             ai_analysis=ai_analysis,
-            cloud_findings=cloud_findings,
             risk_score=risk_score,
             report_paths=report_paths
         )
