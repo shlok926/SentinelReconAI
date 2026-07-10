@@ -343,6 +343,92 @@
             {% endif %}
         </div>
         
+        <!-- Cloud Enumeration Section -->
+        {% if cloud_findings %}
+        <div class="card cloud-findings">
+            <h2 class="section-title">☁️ Cloud Assets - {{ cloud_findings.cloud_provider }}</h2>
+            <div class="cloud-summary" style="margin-bottom: 20px;">
+                <p><strong>Cloud Risk Score:</strong> {{ cloud_findings.overall_risk_score }}/100</p>
+                <p><strong>Critical Issues:</strong> <span class="badge-CRITICAL risk-badge" style="padding: 2px 6px; font-size: 0.8em;">{{ cloud_findings.critical_count }}</span>
+                   <strong>High Issues:</strong> <span class="badge-HIGH risk-badge" style="padding: 2px 6px; font-size: 0.8em;">{{ cloud_findings.high_count }}</span>
+                   <strong>Medium Issues:</strong> <span class="badge-MEDIUM risk-badge" style="padding: 2px 6px; font-size: 0.8em;">{{ cloud_findings.medium_count }}</span></p>
+            </div>
+
+            {% if cloud_findings.cloud_provider == 'AWS' %}
+            <div class="cloud-provider aws">
+                <details open>
+                    <summary>S3 Buckets ({{ cloud_findings.s3_buckets|length }})</summary>
+                    <table>
+                        <tr>
+                            <th>Bucket Name</th>
+                            <th>Public Access</th>
+                            <th>Encryption</th>
+                            <th>Risk Level</th>
+                            <th>Recommendations</th>
+                        </tr>
+                        {% for bucket in cloud_findings.s3_buckets %}
+                        <tr>
+                            <td>{{ bucket.name }}</td>
+                            <td>{% if bucket.public_accessible %}<span style="color: var(--critical)">PUBLIC</span>{% else %}<span style="color: var(--low)">PRIVATE</span>{% endif %}</td>
+                            <td>{% if bucket.encryption_enabled %}<span style="color: var(--low)">ENABLED</span>{% else %}<span style="color: var(--high)">DISABLED</span>{% endif %}</td>
+                            <td><span class="risk-badge badge-{{ bucket.risk_level }}" style="padding: 2px 6px; font-size: 0.8em;">{{ bucket.risk_level }}</span></td>
+                            <td>
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    {% for rec in bucket.recommendations %}
+                                    <li>{{ rec }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </details>
+                
+                <details open>
+                    <summary>EC2 Instances ({{ cloud_findings.ec2_instances|length }})</summary>
+                    <table>
+                        <tr>
+                            <th>Instance</th>
+                            <th>Private IP</th>
+                            <th>Public IP</th>
+                            <th>Risk Level</th>
+                            <th>Recommendations</th>
+                        </tr>
+                        {% for instance in cloud_findings.ec2_instances %}
+                        <tr>
+                            <td>{{ instance.instance_name }}</td>
+                            <td>{{ instance.ip_private }}</td>
+                            <td>{% if instance.ip_public %}<span style="color: var(--high)">{{ instance.ip_public }}</span>{% else %}N/A{% endif %}</td>
+                            <td><span class="risk-badge badge-{{ instance.risk_level }}" style="padding: 2px 6px; font-size: 0.8em;">{{ instance.risk_level }}</span></td>
+                            <td>
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    {% for rec in instance.recommendations %}
+                                    <li>{{ rec }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </details>
+                
+                <details>
+                    <summary>IAM Policies ({{ cloud_findings.iam_findings|length }})</summary>
+                    <ul>
+                        {% for finding in cloud_findings.iam_findings %}
+                        <li style="margin-bottom: 10px;">
+                            <strong>{{ finding.user_name }}</strong> - <span class="risk-badge badge-{{ finding.risk_level }}" style="padding: 2px 6px; font-size: 0.8em;">{{ finding.risk_level }}</span>
+                            <br>Permissions: {{ finding.dangerous_permissions|join(', ') if finding.dangerous_permissions else 'None specified' }}
+                            <br>Recommendation: {{ finding.recommendations[0] if finding.recommendations else 'Audit permissions.' }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
     </div>
 </body>
 </html>
