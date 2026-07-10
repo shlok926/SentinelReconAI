@@ -10,7 +10,7 @@
   <!-- Boot Sequence -->
   <g opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="0.5s" dur="0.1s" fill="freeze" />
-    <text x="30" y="70" font-family="monospace" font-size="14" fill="#8b949e">[SYS] Initializing SentinelRecon v2.0... <tspan fill="#3fb950">OK</tspan></text>
+    <text x="30" y="70" font-family="monospace" font-size="14" fill="#8b949e">[SYS] Initializing SentinelRecon v1.5... <tspan fill="#3fb950">OK</tspan></text>
   </g>
   <g opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="1.2s" dur="0.1s" fill="freeze" />
@@ -20,14 +20,10 @@
     <animate attributeName="opacity" from="0" to="1" begin="1.9s" dur="0.1s" fill="freeze" />
     <text x="30" y="110" font-family="monospace" font-size="14" fill="#8b949e">[INT] Loading Shodan/OTX Modules... <tspan fill="#3fb950">OK</tspan></text>
   </g>
-  <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="2.6s" dur="0.1s" fill="freeze" />
-    <text x="30" y="130" font-family="monospace" font-size="14" fill="#8b949e">[CLD] Priming AWS/Azure/GCP keyspace... <tspan fill="#3fb950">OK</tspan></text>
-  </g>
   
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="3.5s" dur="0.1s" fill="freeze" />
-    <text x="450" y="180" font-family="monospace" font-size="14" fill="#58a6ff" text-anchor="middle">System Sequence Initialized. Directives unlocked.</text>
+    <animate attributeName="opacity" from="0" to="1" begin="2.8s" dur="0.1s" fill="freeze" />
+    <text x="450" y="160" font-family="monospace" font-size="14" fill="#58a6ff" text-anchor="middle">System Sequence Initialized. Directives unlocked.</text>
   </g>
   
   <!-- Logo Glow Effect -->
@@ -40,68 +36,62 @@
 
   <!-- Big ASCII Text & Subtitle -->
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="4.5s" dur="0.1s" fill="freeze" />
-    <text x="450" y="260" font-family="monospace" font-size="65" fill="#00FF88" font-weight="bold" text-anchor="middle" filter="url(#glow)" letter-spacing="2">
+    <animate attributeName="opacity" from="0" to="1" begin="3.8s" dur="0.1s" fill="freeze" />
+    <text x="450" y="240" font-family="monospace" font-size="65" fill="#00FF88" font-weight="bold" text-anchor="middle" filter="url(#glow)" letter-spacing="2">
       SENTINELRECON
     </text>
-    <text x="450" y="310" font-family="monospace" font-size="16" fill="#c9d1d9" text-anchor="middle">
-      AI-Powered Reconnaissance  ·  Global Threat Intel  ·  Cloud Auditing
+    <text x="450" y="290" font-family="monospace" font-size="16" fill="#c9d1d9" text-anchor="middle">
+      AI-Powered Reconnaissance  ·  Global Threat Intelligence
     </text>
   </g>
 
   <!-- Info Box -->
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="5.5s" dur="0.1s" fill="freeze" />
-    <rect x="150" y="350" width="600" height="80" fill="none" stroke="#30363d" rx="5"/>
-    <rect x="360" y="342" width="180" height="16" fill="#0d1117"/>
-    <text x="450" y="355" font-family="monospace" font-size="13" fill="#8b949e" text-anchor="middle" font-weight="bold"> SentinelRecon Framework </text>
-    <text x="180" y="385" font-family="monospace" font-size="14" fill="#58a6ff">
-      Version: 2.0.0-CORE   ·   Modules: 14   ·   AI Engine: CLAUDE-3
+    <animate attributeName="opacity" from="0" to="1" begin="4.8s" dur="0.1s" fill="freeze" />
+    <rect x="150" y="340" width="600" height="80" fill="none" stroke="#30363d" rx="5"/>
+    <rect x="360" y="332" width="180" height="16" fill="#0d1117"/>
+    <text x="450" y="345" font-family="monospace" font-size="13" fill="#8b949e" text-anchor="middle" font-weight="bold"> SentinelRecon Framework </text>
+    <text x="180" y="375" font-family="monospace" font-size="14" fill="#58a6ff">
+      Version: 1.5.0-CORE   ·   Modules: 11   ·   AI Engine: CLAUDE-3
     </text>
   </g>
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="6.0s" dur="0.1s" fill="freeze" />
-    <text x="180" y="410" font-family="monospace" font-size="14" fill="#c9d1d9">
+    <animate attributeName="opacity" from="0" to="1" begin="5.3s" dur="0.1s" fill="freeze" />
+    <text x="180" y="400" font-family="monospace" font-size="14" fill="#c9d1d9">
       Target: <tspan fill="#ff7b72">example.com</tspan>   ·   Mode: <tspan fill="#f85149">AGGRESSIVE</tspan>
     </text>
   </g>
 
   <!-- Commands Menu -->
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="6.5s" dur="0.1s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" begin="5.8s" dur="0.1s" fill="freeze" />
     <text x="30" y="480" font-family="monospace" font-size="14" fill="#c9d1d9">
       <tspan fill="#3fb950" font-weight="bold">1</tspan>    scan          Run network and OSINT scans on target
     </text>
   </g>
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="6.7s" dur="0.1s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" begin="6.0s" dur="0.1s" fill="freeze" />
     <text x="30" y="500" font-family="monospace" font-size="14" fill="#c9d1d9">
-      <tspan fill="#3fb950" font-weight="bold">2</tspan>    cloud         Enumerate AWS/Azure/GCP misconfigurations
+      <tspan fill="#3fb950" font-weight="bold">2</tspan>    report        Generate PDF/HTML Enterprise reports
     </text>
   </g>
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="6.9s" dur="0.1s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" begin="6.2s" dur="0.1s" fill="freeze" />
     <text x="30" y="520" font-family="monospace" font-size="14" fill="#c9d1d9">
-      <tspan fill="#3fb950" font-weight="bold">3</tspan>    report        Generate PDF/HTML Enterprise reports
-    </text>
-  </g>
-  <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="7.1s" dur="0.1s" fill="freeze" />
-    <text x="30" y="540" font-family="monospace" font-size="14" fill="#c9d1d9">
-      <tspan fill="#3fb950" font-weight="bold">4</tspan>    config        Manage API keys (Shodan, OTX, Claude)
+      <tspan fill="#3fb950" font-weight="bold">3</tspan>    config        Manage API keys (Shodan, OTX, Claude)
     </text>
   </g>
   
   <!-- Prompt -->
   <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="8.0s" dur="0.1s" fill="freeze" />
-    <text x="30" y="580" font-family="monospace" font-size="16" fill="#c9d1d9" font-weight="bold">
-      Command: sentinelrecon scan --cloud aws
+    <animate attributeName="opacity" from="0" to="1" begin="7.0s" dur="0.1s" fill="freeze" />
+    <text x="30" y="570" font-family="monospace" font-size="16" fill="#c9d1d9" font-weight="bold">
+      Command: sentinelrecon scan --target example.com
     </text>
   </g>
   
-  <text x="440" y="580" font-family="monospace" font-size="16" fill="#58a6ff" opacity="0">
-    <animate attributeName="opacity" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" begin="8.5s" />
+  <text x="510" y="570" font-family="monospace" font-size="16" fill="#58a6ff" opacity="0">
+    <animate attributeName="opacity" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" begin="7.5s" />
     █
   </text>
 </svg>
