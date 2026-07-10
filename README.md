@@ -1,6 +1,6 @@
 <div align="center">
   
-  <img src="docs/images/logo.png" alt="SentinelRecon Logo" width="200">
+  <img src="docs/images/cli_hero.svg" alt="SentinelRecon Terminal Banner" width="100%">
 
   # SentinelRecon AI
 
