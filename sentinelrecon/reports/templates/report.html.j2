@@ -280,6 +280,33 @@
         </div>
         {% endif %}
 
+        {% if threat_intel and threat_intel.get('shodan') %}
+        {% set shodan = threat_intel.shodan %}
+        <div class="card">
+            <h2 style="color: #FF5722;">Shodan Intelligence</h2>
+            <div style="background-color: rgba(255, 87, 34, 0.05); border: 1px solid rgba(255, 87, 34, 0.2); padding: 15px; border-radius: 6px;">
+                <table style="margin-top: 0;">
+                    <tr><td style="border:none; padding: 5px;"><strong>Organization:</strong></td><td style="border:none; padding: 5px;">{{ shodan.org }}</td></tr>
+                    <tr><td style="border:none; padding: 5px;"><strong>ISP:</strong></td><td style="border:none; padding: 5px;">{{ shodan.isp }}</td></tr>
+                    <tr><td style="border:none; padding: 5px;"><strong>Country:</strong></td><td style="border:none; padding: 5px;">{{ shodan.country }}</td></tr>
+                    <tr><td style="border:none; padding: 5px;"><strong>Historical Ports:</strong></td><td style="border:none; padding: 5px;">{{ shodan.ports }}</td></tr>
+                    <tr><td style="border:none; padding: 5px;"><strong>Known CVEs:</strong></td><td style="border:none; padding: 5px;">{{ shodan.cves | length }}</td></tr>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if threat_intel and threat_intel.get('otx') %}
+        {% set otx = threat_intel.otx %}
+        <div class="card">
+            <h2 style="color: #4CAF50;">AlienVault OTX</h2>
+            <div style="background-color: rgba(76, 175, 80, 0.05); border: 1px solid rgba(76, 175, 80, 0.2); padding: 15px; border-radius: 6px;">
+                <p><strong>Pulse Count:</strong> {{ otx.get('pulse_info', {}).get('count', 0) }}</p>
+                <p><strong>Reputation:</strong> {{ otx.get('reputation', 0) }}</p>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- CVE Findings -->
         <div class="card">
             <h2>CVE Findings</h2>

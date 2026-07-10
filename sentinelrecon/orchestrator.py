@@ -237,12 +237,32 @@ class ScanOrchestrator:
                 self.logger.error(f"Risk scoring failed: {e}")
 
         # 7. Threat Intelligence Enrichment
-        threat_data = None
+        threat_data = {}
         if self.threat_intel:
             try:
-                threat_data = self.threat_intel.gather_intelligence(target)
+                base_intel = self.threat_intel.gather_intelligence(target)
+                if isinstance(base_intel, dict):
+                    threat_data.update(base_intel)
             except Exception as e:
                 self.logger.error(f"Threat intel failed: {e}")
+                
+        try:
+            from sentinelrecon.integrations.shodan_client import ShodanClient
+            from sentinelrecon.integrations.otx_client import OTXClient
+            import os
+            
+            shodan_client = ShodanClient(os.environ.get('SHODAN_API_KEY', ''))
+            otx_client = OTXClient(os.environ.get('OTX_API_KEY', ''))
+            
+            shodan_data = shodan_client.lookup(target)
+            otx_data = otx_client.lookup_ip(target)
+            
+            if shodan_data:
+                threat_data['shodan'] = shodan_data.__dict__ if hasattr(shodan_data, '__dict__') else shodan_data
+            if otx_data:
+                threat_data['otx'] = otx_data
+        except Exception as e:
+            self.logger.error(f"Extended threat intel failed: {e}")
 
         # 8. AI Analysis
         ai_analysis = None
