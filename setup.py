@@ -30,7 +30,7 @@ setup(
         "click==8.1.7",
         "scapy==2.5.0",
         "requests==2.31.0",
-        "anthropic==0.25.0",
+        "anthropic==0.124.0",
         "sqlalchemy==2.0.29",
         "jinja2==3.1.3",
         "weasyprint==61.2",
