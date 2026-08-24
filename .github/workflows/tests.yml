@@ -1,0 +1,82 @@
+name: SentinelRecon v2.0 - Tests & Security
+
+on:
+  push:
+    branches: [ main, develop, v2.0-implementation ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov boto3 requests
+    
+    - name: Run syntax check
+      run: |
+        python -m py_compile sentinelrecon/v2/**/*.py
+    
+    - name: Run unit tests
+      run: |
+        pytest sentinelrecon/v2/tests/ -v --tb=short
+    
+    - name: Generate coverage report
+      run: |
+        pytest sentinelrecon/v2/tests/ --cov=sentinelrecon.v2 --cov-report=xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+    
+    - name: Security check - No verify=False
+      run: |
+        if grep -r "verify=False" sentinelrecon/v2/; then
+          echo "ERROR: verify=False found in code!"
+          exit 1
+        fi
+        echo "✅ No verify=False found"
+    
+    - name: Security check - No disabled warnings
+      run: |
+        if grep -r "disable_warnings" sentinelrecon/v2/; then
+          echo "ERROR: disable_warnings found in code!"
+          exit 1
+        fi
+        echo "✅ No disabled warnings found"
+    
+    - name: Code quality - Check imports
+      run: |
+        python -c "
+        from sentinelrecon.v2.config import Config
+        from sentinelrecon.v2.container import ServiceContainer
+        from sentinelrecon.v2.aws.client import AWSClient
+        from sentinelrecon.v2.aws.s3.scanner import S3Scanner
+        from sentinelrecon.v2.aws.ec2.scanner import EC2Scanner
+        from sentinelrecon.v2.aws.iam.auditor import IAMAuditor
+        from sentinelrecon.v2.orchestrator import Orchestrator
+        from sentinelrecon.v2.main import main
+        print('✅ All imports successful')
+        "
+    
+    - name: Create release (if main branch)
+      if: github.ref == 'refs/heads/main' && success()
+      run: |
+        echo "Release ready: SentinelRecon v2.0"
+        echo "✅ All tests passed"
