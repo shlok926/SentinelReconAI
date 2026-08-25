@@ -4,11 +4,15 @@ AWS IAM audit and analysis.
 """
 
 import logging
-from typing import List, Dict
+from typing import List, Dict, TYPE_CHECKING
 from datetime import datetime, timedelta
 from botocore.exceptions import ClientError
 import json
 from .models import IAMUserData, IAMRoleData, AccessKey
+
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
+    from sentinelrecon.v2.aws.client import AWSClient
 
 class IAMAuditor:
     """AWS IAM audit and analysis."""

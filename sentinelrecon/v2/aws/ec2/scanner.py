@@ -4,10 +4,14 @@ AWS EC2 enumeration and security analysis scanner.
 """
 
 import logging
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, TYPE_CHECKING
 from datetime import datetime
 from botocore.exceptions import ClientError
 from .models import EC2InstanceData, SecurityGroupRule
+
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
+    from sentinelrecon.v2.aws.client import AWSClient
 
 class EC2Scanner:
     """AWS EC2 enumeration and security analysis scanner."""

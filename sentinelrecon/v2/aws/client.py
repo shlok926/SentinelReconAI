@@ -7,8 +7,10 @@ with built-in timeouts and retries.
 import boto3
 from botocore.config import Config as BotoConfig
 import logging
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
 class AWSClient:
     """AWS SDK client with security hardening."""
     

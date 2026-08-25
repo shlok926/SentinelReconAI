@@ -4,9 +4,18 @@ This module provides the dependency injection container for SentinelRecon,
 enabling loose coupling and easy testing across the application by lazy-loading components.
 """
 
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from dataclasses import dataclass
 import logging
+
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
+    from sentinelrecon.v2.aws.client import AWSClient
+    from sentinelrecon.v2.azure.client import AzureClient
+    from sentinelrecon.v2.gcp.client import GCPClient
+    from sentinelrecon.v2.output.manager import ReportManager, OutputManager
+    from sentinelrecon.v2.security.credentials import CredentialsManager
+
 
 @dataclass
 class ServiceContainer:

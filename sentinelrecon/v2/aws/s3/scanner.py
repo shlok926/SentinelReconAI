@@ -4,10 +4,14 @@ AWS S3 enumeration and security analysis scanner.
 """
 
 import logging
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, TYPE_CHECKING
 from datetime import datetime
 from botocore.exceptions import ClientError, NoCredentialsError
 from ..models import S3BucketData
+
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
+    from sentinelrecon.v2.aws.client import AWSClient
 
 class S3Scanner:
     """AWS S3 enumeration and security analysis scanner."""
