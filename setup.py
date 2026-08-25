@@ -38,7 +38,7 @@ setup(
         "cryptography==42.0.5",
         "rich==13.7.1",
         "tqdm==4.66.2",
-        "flask==3.0.3",
+        "flask==3.1.3",
     ],
     entry_points={
         "console_scripts": [
