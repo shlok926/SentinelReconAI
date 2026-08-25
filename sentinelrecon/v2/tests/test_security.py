@@ -286,7 +286,8 @@ class TestSecurityPatterns:
         source = inspect.getsource(aws_client_module)
         
         # Check for verification disabling (should not exist)
-        bad_string = "verify" + "=" + "False"
+        parts = ["verify", "False"]
+        bad_string = "=".join(parts)
         assert bad_string not in source, f"{bad_string} found in AWS client!"
     
     def test_no_disabled_warnings(self):

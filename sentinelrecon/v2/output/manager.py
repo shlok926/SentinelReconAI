@@ -7,8 +7,10 @@ and symlink vulnerability detection.
 from pathlib import Path
 import json
 import logging
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from sentinelrecon.v2.config import Config
 class ReportManager:
     """Manages secure report generation and output."""
     
