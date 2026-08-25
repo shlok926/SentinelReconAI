@@ -42,15 +42,42 @@ def parse_arguments() -> argparse.Namespace:
     """
     parser = argparse.ArgumentParser(
         description='SentinelRecon v2.0 - AWS Cloud Enumeration & Security Analysis',
-        epilog='Example: python -m sentinelrecon.v2.main --account 123456789012 --region us-east-1 --scan s3,ec2'
+        epilog='Examples: \n' +
+        '  AWS:   python -m sentinelrecon.v2.main --account 123456789012 --scan s3,ec2\n' +
+        '  Azure: python -m sentinelrecon.v2.main --cloud azure --subscription sub-id\n' +
+        '  GCP:   python -m sentinelrecon.v2.main --cloud gcp --project project-id\n' +
+        '  All:   python -m sentinelrecon.v2.main --cloud all --account 123... --subscription sub-id --project proj-id',
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
     
     # Required arguments
     parser.add_argument(
         '--account',
         type=str,
-        required=True,
-        help='AWS account ID (12 digits)'
+        required=False,
+        help='AWS account ID (12 digits, required for AWS scans)'
+    )
+
+    parser.add_argument(
+        '--cloud',
+        type=str,
+        choices=['aws', 'azure', 'gcp', 'all'],
+        default='aws',
+        help='Cloud provider to scan (default: aws)'
+    )
+
+    parser.add_argument(
+        '--subscription',
+        type=str,
+        required=False,
+        help='Azure subscription ID (required for Azure scans)'
+    )
+
+    parser.add_argument(
+        '--project',
+        type=str,
+        required=False,
+        help='GCP project ID (required for GCP scans)'
     )
     
     # Optional arguments
@@ -104,17 +131,31 @@ def validate_arguments(args: argparse.Namespace) -> bool:
     """
     validator = InputValidator(logging.getLogger("SentinelRecon"))
     
-    # Validate account ID
-    valid, error = validator.validate_aws_account_id(args.account)
-    if not valid:
-        print(f"❌ Account ID validation failed: {error}")
-        return False
+    # Validate based on cloud provider
+    if args.cloud in ['aws', 'all']:
+        if not args.account:
+            print("❌ --account is required for AWS scans")
+            return False
+        
+        valid, error = validator.validate_aws_account_id(args.account)
+        if not valid:
+            print(f"❌ Account ID validation failed: {error}")
+            return False
+        
+        valid, error = validator.validate_aws_region(args.region)
+        if not valid:
+            print(f"❌ Region validation failed: {error}")
+            return False
     
-    # Validate region
-    valid, error = validator.validate_aws_region(args.region)
-    if not valid:
-        print(f"❌ Region validation failed: {error}")
-        return False
+    if args.cloud in ['azure', 'all']:
+        if not args.subscription:
+            print("❌ --subscription is required for Azure scans")
+            return False
+    
+    if args.cloud in ['gcp', 'all']:
+        if not args.project:
+            print("❌ --project is required for GCP scans")
+            return False
     
     # Validate scan name if provided
     if args.scan_name:
@@ -184,10 +225,13 @@ def main() -> int:
         
         # Execute scan (will implement in PROMPT 4-2)
         results = orchestrator.execute_scan(
-            account_id=args.account,
-            region=args.region,
-            scan_types=args.scan.split(','),
-            report_manager=report_manager
+            account_id=args.account if args.cloud in ['aws', 'all'] else None,
+            region=args.region if args.cloud in ['aws', 'all'] else None,
+            scan_types=args.scan.split(',') if args.scan != 'all' else ['all'],
+            report_manager=report_manager,
+            cloud_provider=args.cloud,
+            azure_subscription_id=args.subscription,
+            gcp_project_id=args.project
         )
         
         logger.info("✅ Scan completed successfully")
