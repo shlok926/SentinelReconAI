@@ -54,7 +54,7 @@ htmlcov/
 .pytest_cache/
 
 # Output
-output/
+/output/
 *.pdf
 *.html
 
@@ -66,4 +66,8 @@ Thumbs.db
 .vscode/settings.json
 .vscode/launch.json
 
-docs/
+# Temporary Docs
+docs/SentinelRecon_*.md
+docs/COMPLETE_PROJECT_STATUS_*.md
+
+.ai/
