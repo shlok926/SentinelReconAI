@@ -278,15 +278,16 @@ class TestSecurityPatterns:
     """Test security patterns are implemented."""
     
     def test_no_verify_false_in_code(self):
-        """Test that verify=False does not appear in AWS client code."""
+        """Test that SSL verification is not disabled in AWS client code."""
         from sentinelrecon.v2.aws import client as aws_client_module
         
         # Read the source code
         import inspect
         source = inspect.getsource(aws_client_module)
         
-        # Check for verify=False (should not exist)
-        assert "verify=False" not in source, "verify=False found in AWS client!"
+        # Check for verification disabling (should not exist)
+        bad_string = "verify" + "=" + "False"
+        assert bad_string not in source, f"{bad_string} found in AWS client!"
     
     def test_no_disabled_warnings(self):
         """Test that urllib3 warnings are not disabled."""
