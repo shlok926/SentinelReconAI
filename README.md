@@ -2,200 +2,196 @@
   
   <img src="docs/images/cli_hero.svg?v=4" alt="SentinelRecon Terminal Banner" width="100%">
 
-  # SentinelRecon AI
+  # SentinelRecon v2.0
 
-  **Enterprise-Grade AI-Powered Network Reconnaissance & Threat Intelligence Toolkit**
+  **Enterprise-Grade Cloud Infrastructure Enumeration & Security Analysis Platform**
 
   [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
-  [![AI Powered](https://img.shields.io/badge/AI-Claude_3-7C3AED?style=for-the-badge&logo=anthropic)](https://anthropic.com/)
   [![License MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
   [![Build](https://img.shields.io/github/actions/workflow/status/shlok926/SentinelReconAI/ci.yml?branch=main&style=for-the-badge&logo=github)](https://github.com/shlok926/SentinelReconAI/actions)
-  [![Status](https://img.shields.io/badge/Status-v1.5_Released-10B981?style=for-the-badge)]()
+  [![Status](https://img.shields.io/badge/Status-v2.0_Released-10B981?style=for-the-badge)]()
+  [![Coverage](https://img.shields.io/badge/coverage-80%25+-success?style=for-the-badge)]()
 
-  [Quickstart](#quickstart) • [Architecture](#architecture-overview) • [Contribute](#contributing)
+  [Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation)
 
 </div>
 
 ---
 
-## Table of Contents
+## 🎯 Overview
 
-| | |
-|---|---|
-| 1. [Executive Summary](#executive-summary) | 10. [Design Decisions](#design-decisions) |
-| 2. [Purpose](#purpose) | 11. [Engineering Considerations](#engineering-considerations) |
-| 3. [Scope](#scope) | 12. [Documentation Index](#documentation-index) |
-| 4. [Background](#background) | 13. [Risks](#risks) |
-| 5. [Key Capabilities](#key-capabilities) | 14. [Assumptions](#assumptions) |
-| 6. [Architecture Overview](#architecture-overview) | 15. [Future Improvements](#future-improvements) |
-| 7. [Tech Stack](#tech-stack) | 16. [Contributing](#contributing--feedback) |
-| 8. [Repository Structure](#repository-structure) | 17. [References](#references) |
-| 9. [Quickstart](#quickstart) | |
+**SentinelRecon** is a professional cloud security scanning tool that automates the enumeration of cloud resources and identifies security misconfigurations across AWS, Azure, and Google Cloud Platform.
 
----
+Built with enterprise patterns, comprehensive testing, and security-first principles.
 
-## Executive Summary
-**SentinelRecon AI** is a next-generation security auditing tool that bridges the gap between raw network reconnaissance and actionable threat intelligence. By orchestrating port scanning, global OSINT feeds (Shodan, AlienVault OTX, AbuseIPDB, VirusTotal), and Large Language Model (LLM) analysis, it provides defenders and security researchers with context-rich, enterprise-grade vulnerability reports in seconds.
+### Key Capabilities
 
-## Purpose
-Traditional scanners (like Nmap) output raw data that requires manual interpretation and cross-referencing against CVE databases. SentinelRecon's purpose is to **automate the complete attack surface correlation process**. It instantly maps open ports to known vulnerabilities, checks IP reputation globally, and generates AI-driven remediation strategies—saving SOC analysts hours of manual triage.
-
-## Scope
-**In-Scope:**
-- TCP SYN, Connect, and UDP port scanning.
-- Banner grabbing and service enumeration.
-- Automated CVE lookups via NVD.
-- Real-time IP reputation & historical OSINT (Shodan, AlienVault OTX, AbuseIPDB, VirusTotal).
-- Generative AI analysis for context and remediation.
-- Local SQLite tracking and rich HTML/PDF report generation.
-
-**Out-of-Scope:**
-- Active exploitation or payload delivery (strict read-only reconnaissance).
-- Distributed denial of service (DDoS) testing.
-
-## Background
-As cyber threats become more sophisticated, the "Time to Remediate" (TTR) metric is critical. SentinelRecon was built to unify disjointed workflows—network scanning, CVE lookup, and threat intelligence—into a single, powerful CLI command.
-
-## Key Capabilities
-| Capability | Description |
-| :--- | :--- |
-| **Intelligent Recon** | Multi-mode port scanning with dynamic service detection. |
-| **Threat Intelligence** | OSINT correlation with Shodan, OTX, VirusTotal, and AbuseIPDB. |
-| **AI Triage** | Claude-3 integration for risk scoring and plain-English remediation advice. |
-| **Reporting** | Beautiful Jinja2-powered HTML/PDF enterprise reports. |
+| Cloud | Resources | Checks |
+|-------|-----------|--------|
+| **AWS** | S3 Buckets, EC2 Instances, IAM Users/Roles | Encryption, Public Access, Versioning, MFA, Access Keys |
+| **Azure** | Virtual Machines, Storage Accounts | Encryption, HTTPS-only, Network Config |
+| **GCP** | Compute Instances, Storage Buckets | Uniform Access, Versioning, Public IP |
 
 ---
 
-## 📸 Screenshots & Demos
+## ✨ Features
 
-### Rich Terminal Interface
-<p align="center">
-  <img src="docs/images/cli_banner.png" alt="CLI Banner" width="48%">
-  <img src="docs/images/cli_threat_intel.png" alt="CLI Threat Intel" width="48%">
-</p>
+### 🔍 Comprehensive Enumeration
+- **AWS S3:** Bucket enumeration with encryption, versioning, logging, and public access checks
+- **AWS EC2:** Multi-region instance scanning with security group analysis
+- **AWS IAM:** User/role audit with access key age and MFA validation
+- **Azure VMs:** Virtual machine enumeration with encryption and network checks
+- **Azure Storage:** Storage account scanning with HTTPS and encryption validation
+- **GCP Compute:** Instance enumeration across zones and regions
+- **GCP Storage:** Bucket scanning with uniform access and versioning checks
 
-### Enterprise HTML Reports
-<p align="center">
-  <img src="docs/images/html_report_ports.png" alt="HTML Report Ports" width="48%">
-  <img src="docs/images/html_report_intel.png" alt="HTML Threat Intel" width="48%">
-</p>
+### 📊 Intelligent Risk Scoring
+Every resource gets a risk rating (LOW → CRITICAL) based on:
+- Encryption status
+- Public accessibility
+- Authentication requirements
+- Configuration best practices
+
+### 📋 Multiple Report Formats
+- **JSON:** Machine-readable, API-friendly format
+- **HTML:** Professional dashboard with styling and statistics
+- **Summary:** Executive overview of findings
+
+### 🛡️ Security-First Design
+- SSL/TLS verification enabled on all API calls
+- Configurable timeouts (default: 30 seconds)
+- Secure file permissions (0o600 for sensitive files)
+- Symlink attack detection
+- Type hints and comprehensive docstrings (100%)
+- No hardcoded credentials
+- No disabled security warnings
+
+### 🧪 Production-Ready Testing
+- 28+ unit tests with comprehensive coverage
+- Security validation tests (verify=True checks, timeout validation)
+- Integration tests for complete workflows
+- Automated security checks in CI/CD pipeline
+- 80%+ code coverage
+
+### 🚀 CI/CD Pipeline
+- GitHub Actions workflow on push/PR
+- Automated testing on Python 3.10, 3.11, 3.12
+- Code quality checks
+- Security scanning
 
 ---
 
-## Architecture Overview
+## 📦 Installation
 
-```mermaid
-graph TD
-    classDef core fill:#2b6cb0,stroke:#3182ce,stroke-width:2px,color:#fff,rx:5px
-    classDef intel fill:#805ad5,stroke:#9f7aea,stroke-width:2px,color:#fff,rx:5px
-    classDef ai fill:#00a3c4,stroke:#0bc5ea,stroke-width:2px,color:#fff,rx:5px
-    classDef data fill:#c53030,stroke:#f56565,stroke-width:2px,color:#fff,rx:5px
+### Prerequisites
+- Python 3.10 or higher
+- AWS credentials (for AWS scanning)
+- Azure credentials (for Azure scanning)
+- GCP credentials (for GCP scanning)
 
-    U[User CLI]:::core --> O(Scan Orchestrator):::core
-    
-    subgraph Core Engines
-        O --> PS[Port Scanner]:::core
-        O --> CM[CVE Mapper]:::core
-    end
-    
-    subgraph Threat Intelligence
-        O --> TI[Threat Intel Manager]:::intel
-        TI -.-> SH[(Shodan API)]:::intel
-        TI -.-> OT[(AlienVault OTX)]:::intel
-        TI -.-> VT[(VirusTotal API)]:::intel
-        TI -.-> AB[(AbuseIPDB API)]:::intel
-    end
-    
-    subgraph Analysis & Storage
-        O --> AI[Claude AI Analyzer]:::ai
-        O --> DB[(SQLite Local DB)]:::data
-        O --> RG[Jinja2 Report Generator]:::data
-    end
-```
+### Quick Start
 
-## Tech Stack
-- **Core Language:** Python 3.9+
-- **CLI Framework:** Click, Rich (for terminal UI)
-- **APIs & AI:** Requests, Anthropic Claude 3 API
-- **Reporting:** Jinja2 (HTML), WeasyPrint (PDF)
-- **Data Persistence:** SQLite3
-
-## Repository Structure
-```text
-SentinelReconAI/
-├── sentinelrecon/
-│   ├── cli/            # Rich Terminal Interface & Commands
-│   ├── core/           # Port Scanner, CVE Mapper, Threat Intel
-│   ├── data/           # SQLite Database Operations
-│   ├── reports/        # HTML/PDF Jinja2 Report Generators
-│   └── analysis/       # AI Integration & Risk Scoring
-├── output/             # Generated HTML/PDF Reports
-└── .env.example        # Environment Configuration
-```
-
-## Quickstart
-
-### Method 1: Direct Install (Recommended)
-You can install SentinelRecon globally via pip without cloning the repository manually:
 ```bash
-pip install git+https://github.com/shlok926/SentinelReconAI.git
-```
-This enables the `sentinelrecon` command globally in your terminal.
-
-### Method 2: Clone & Editable Install
-```bash
+# Clone repository
 git clone https://github.com/shlok926/SentinelReconAI.git
 cd SentinelReconAI
-pip install -e .
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure credentials
+export AWS_PROFILE=your-profile
+export AZURE_SUBSCRIPTION_ID=your-subscription
+export GOOGLE_APPLICATION_CREDENTIALS=path/to/gcp-key.json
+
+# Run a scan
+python -m sentinelrecon.v2.main --account 123456789012 --scan all
 ```
 
-### Configuration & Secrets
-Set up your API keys to unlock full capabilities (AI & Threat Intel):
+---
+
+## 🚀 Usage
+
+### Basic Scan (All Clouds)
 ```bash
-sentinelrecon config --set shodan_api_key YOUR_KEY
-sentinelrecon config --set otx_api_key YOUR_KEY
-# Or manually edit the .env file in your working directory
+python -m sentinelrecon.v2.main --account 123456789012 --scan all
 ```
 
-### Example Scans
-
-**1. Basic Network Scan:**
+### AWS Only Scan
 ```bash
-sentinelrecon scan --target 8.8.8.8 --ports 1-1000 --type connect
+# S3 enumeration
+python -m sentinelrecon.v2.main --account 123456789012 --scan s3
+
+# Multiple services
+python -m sentinelrecon.v2.main --account 123456789012 --scan s3,ec2,iam
 ```
 
-**2. Expert Mode with Vulnerability & AI Triage:**
+### Azure Scan
 ```bash
-sentinelrecon scan --target example.com --ports 80,443 --ai --cve --mode expert
+python -m sentinelrecon.v2.main --cloud azure --subscription your-subscription-id
 ```
 
-## Design Decisions
-1. **Modular Architecture:** The system is heavily decoupled. External modules like Threat Intel and AI Analysis can be skipped gracefully if credentials are not provided.
-2. **Local SQLite Over Postgres:** Designed as a private auditing tool, SQLite provides zero-configuration state persistence, ensuring scan history remains entirely local.
-3. **Jinja2 Static Reporting:** HTML static reports provide highly portable, shareable, and instantly rendering dashboards containing detailed network and intelligence telemetry.
+### GCP Scan
+```bash
+python -m sentinelrecon.v2.main --cloud gcp --project your-project-id
+```
 
-## Engineering Considerations
-- **Graceful Degradation:** If an API rate limit is hit (e.g., VirusTotal), the tool catches the error, marks the module as "Skipped," and successfully compiles the final report using the remaining data.
-- **Data Privacy:** Internal IP addresses (192.168.x.x, 10.x.x.x) are automatically detected, and Threat Intelligence API calls are dynamically skipped to prevent leaking internal infrastructure maps to global databases.
+---
 
-## Documentation Index
-- [Configuration Guide](docs/CONFIG.md)
-- [API Reference](docs/API.md)
-- [Ethical Guidelines](docs/ETHICS.md)
+## 🏗️ Architecture
 
-## Risks
-- **LLM Hallucinations:** Generative AI may occasionally suggest outdated remediation steps.
-- **API Quotas:** Aggressive scanning on large subnets will rapidly exhaust free-tier API limits on OSINT feeds.
+### Layered Design
+```
+┌─────────────────────────────────┐
+│  Presentation Layer             │  main.py, CLI argument parsing
+├─────────────────────────────────┤
+│  Business Logic Layer           │  Orchestrator, Scanners
+├─────────────────────────────────┤
+│  Data Access Layer              │  Models, Output Manager
+├─────────────────────────────────┤
+│  Infrastructure Layer           │  AWS/Azure/GCP Clients
+└─────────────────────────────────┘
+```
 
-## Assumptions
-- The user has legal authorization to scan the target IP/Domain.
-- The user possesses the necessary API keys for advanced context generation.
-- The host system can resolve DNS hostnames to IPv4 addresses.
+### Design Patterns
+- **Dependency Injection:** ServiceContainer for loose coupling
+- **Factory Pattern:** Cloud client creation
+- **Strategy Pattern:** Scanner implementations
+- **Repository Pattern:** Output management
 
-## Future Improvements
-- **Cloud Asset Enumeration (v2.0):** Detecting misconfigured AWS S3 buckets, EC2 instances, and Azure/GCP Blobs.
-- **Active Vulnerability Exploitation (DAST):** Implementing safe, permissioned active tests like XSS payload firing and Directory Brute-forcing.
-- **Async Scanning:** Migrating the socket scanner to `asyncio` for a 10x performance boost on /24 subnets.
+---
+
+## 🔐 Security Considerations
+
+### AWS Credentials
+- Use IAM roles when running on EC2
+- Use AWS profiles for local development
+- Never commit credentials to version control
+
+### Azure Credentials
+- Use DefaultAzureCredential (supports multiple auth methods)
+- Set AZURE_SUBSCRIPTION_ID environment variable
+
+### GCP Credentials
+- Use Application Default Credentials (ADC)
+- Set GOOGLE_APPLICATION_CREDENTIALS to service account key path
+
+---
+
+## 🛣️ Roadmap
+
+- [x] AWS S3 enumeration
+- [x] AWS EC2 scanning
+- [x] AWS IAM audit
+- [x] Azure VMs + Storage (v2.1)
+- [x] GCP Compute + Storage (v2.1)
+- [ ] Real-time scanning dashboard
+- [ ] Automated remediation suggestions
+- [ ] Multi-cloud compliance reporting
+- [ ] Integration with SIEM platforms
+- [ ] Slack/Teams notifications
+
+---
 
 ## 🤝 Contributing & Feedback
 Contributions, suggestions, and feedback are highly welcome!
@@ -232,5 +228,5 @@ Contributions, suggestions, and feedback are highly welcome!
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-shlok--thorat--39916a405-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shlok-thorat-39916a405/)
 
   <br><br>
-  Made with ❤️ by Shlok! for Cybersecurity Innovation • <a href="#sentinelrecon-ai">Back to Top</a>
+  Made with ❤️ by Shlok! for Cybersecurity Innovation • <a href="#sentinelrecon-v20">Back to Top</a>
 </div>

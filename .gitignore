@@ -69,3 +69,5 @@ Thumbs.db
 # Temporary Docs
 docs/SentinelRecon_*.md
 docs/COMPLETE_PROJECT_STATUS_*.md
+
+.ai/
