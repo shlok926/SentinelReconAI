@@ -37,7 +37,7 @@ setup(
         "python-dotenv==1.2.3",
         "cryptography==50.0.0",
         "rich==15.0.0",
-        "tqdm==4.66.3",
+        "tqdm==4.70.0",
         "flask==3.1.3",
     ],
     entry_points={
