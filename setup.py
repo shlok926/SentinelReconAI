@@ -36,7 +36,7 @@ setup(
         "weasyprint==69.0",
         "python-dotenv==1.2.2",
         "cryptography==50.0.0",
-        "rich==13.7.1",
+        "rich==15.0.0",
         "tqdm==4.66.3",
         "flask==3.1.3",
     ],
