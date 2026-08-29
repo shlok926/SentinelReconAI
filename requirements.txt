@@ -5,7 +5,7 @@ anthropic==0.124.0
 sqlalchemy==2.0.29
 jinja2==3.1.6
 weasyprint==69.0
-python-dotenv==1.2.2
+python-dotenv==1.2.3
 cryptography==50.0.0
 rich==15.0.0
 tqdm==4.66.3
