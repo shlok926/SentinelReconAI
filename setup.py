@@ -34,7 +34,7 @@ setup(
         "sqlalchemy==2.0.29",
         "jinja2==3.1.6",
         "weasyprint==69.0",
-        "python-dotenv==1.2.2",
+        "python-dotenv==1.2.3",
         "cryptography==50.0.0",
         "rich==13.7.1",
         "tqdm==4.66.3",
