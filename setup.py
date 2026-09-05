@@ -35,7 +35,7 @@ setup(
         "jinja2==3.1.6",
         "weasyprint==69.0",
         "python-dotenv==1.2.3",
-        "cryptography==50.0.0",
+        "cryptography==50.0.1",
         "rich==15.0.0",
         "tqdm==4.70.0",
         "flask==3.1.3",
