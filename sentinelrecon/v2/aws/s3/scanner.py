@@ -117,27 +117,29 @@ class S3Scanner:
             bool: True if bucket is public
         """
         try:
-            # Check public access block
-            try:
-                pub_access = s3_client.get_public_access_block(Bucket=bucket_name)
-                config = pub_access.get('PublicAccessBlockConfiguration', {})
-                
-                if not config.get('BlockPublicAcls', False):
-                    findings.append("Public ACLs are not blocked")
-                    recommendations.append("Enable 'Block public ACLs'")
-                
-                if not config.get('BlockPublicPolicy', False):
-                    findings.append("Public bucket policy is not blocked")
-                    recommendations.append("Enable 'Block public bucket policy'")
-                
-                is_blocked = config.get('BlockPublicAcls') and config.get('BlockPublicPolicy')
-                return not is_blocked
+            pub_access = s3_client.get_public_access_block(Bucket=bucket_name)
+            config = pub_access.get('PublicAccessBlockConfiguration', {})
             
-            except s3_client.exceptions.NoSuchPublicAccessBlockConfiguration:
+            if not config.get('BlockPublicAcls', False):
+                findings.append("Public ACLs are not blocked")
+                recommendations.append("Enable 'Block public ACLs'")
+            
+            if not config.get('BlockPublicPolicy', False):
+                findings.append("Public bucket policy is not blocked")
+                recommendations.append("Enable 'Block public bucket policy'")
+            
+            is_blocked = config.get('BlockPublicAcls') and config.get('BlockPublicPolicy')
+            return not is_blocked
+            
+        except ClientError as e:
+            error_code = e.response.get('Error', {}).get('Code')
+            if error_code == 'NoSuchPublicAccessBlockConfiguration':
                 findings.append("No public access block configuration")
                 recommendations.append("Configure public access block")
                 return True
-        
+            else:
+                self.logger.warning(f"Error checking public access for {bucket_name}: {e}")
+                return False
         except Exception as e:
             self.logger.warning(f"Error checking public access for {bucket_name}: {e}")
             return False
@@ -159,11 +161,15 @@ class S3Scanner:
                 findings.append("No server-side encryption configured")
                 recommendations.append("Enable default S3 encryption (AES-256 or KMS)")
                 return False
-        
-        except s3_client.exceptions.ServerSideEncryptionConfigurationNotFoundError:
-            findings.append("No server-side encryption configured")
-            recommendations.append("Enable default S3 encryption")
-            return False
+        except ClientError as e:
+            error_code = e.response.get('Error', {}).get('Code')
+            if error_code == 'ServerSideEncryptionConfigurationNotFoundError':
+                findings.append("No server-side encryption configured")
+                recommendations.append("Enable default S3 encryption")
+                return False
+            else:
+                self.logger.warning(f"Error checking encryption for {bucket_name}: {e}")
+                return False
         
         except Exception as e:
             self.logger.warning(f"Error checking encryption for {bucket_name}: {e}")
