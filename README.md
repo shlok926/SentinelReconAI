@@ -100,12 +100,18 @@ cd SentinelReconAI
 pip install -r requirements.txt
 
 # Configure credentials
-export AWS_PROFILE=your-profile
-export AZURE_SUBSCRIPTION_ID=your-subscription
-export GOOGLE_APPLICATION_CREDENTIALS=path/to/gcp-key.json
+# 1. Copy the example environment file
+cp .env.example .env
+
+# 2. Edit .env with your cloud provider keys
+# The tool gracefully skips any cloud providers that don't have credentials in .env.
+# Open .env and add:
+# - AWS_PROFILE or AWS_ACCESS_KEY_ID
+# - AZURE_SUBSCRIPTION_ID
+# - GOOGLE_APPLICATION_CREDENTIALS
 
 # Run a scan
-python -m sentinelrecon.v2.main --account 123456789012 --scan all
+python -m sentinelrecon.v2.main --scan all
 ```
 
 ---

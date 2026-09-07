@@ -27,7 +27,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pytest-cov boto3 requests
+        pip install -r requirements.txt
+        pip install pytest pytest-cov moto[all]
     
     - name: Run syntax check
       run: |
