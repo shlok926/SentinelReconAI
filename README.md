@@ -141,16 +141,62 @@ python -m sentinelrecon.v2.main --cloud gcp --project your-project-id
 ## 🏗️ Architecture
 
 ### Layered Design
-```
-┌─────────────────────────────────┐
-│  Presentation Layer             │  main.py, CLI argument parsing
-├─────────────────────────────────┤
-│  Business Logic Layer           │  Orchestrator, Scanners
-├─────────────────────────────────┤
-│  Data Access Layer              │  Models, Output Manager
-├─────────────────────────────────┤
-│  Infrastructure Layer           │  AWS/Azure/GCP Clients
-└─────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Presentation ["Presentation Layer"]
+        CLI["CLI Interface (main.py)"]
+        Args["Argument Parser"]
+    end
+
+    subgraph BusinessLogic ["Business Logic Layer"]
+        Orchestrator["Orchestrator"]
+        subgraph Scanners ["Scanners"]
+            ScannerAWS["AWS (S3, EC2, IAM)"]
+            ScannerAzure["Azure (VM, Storage)"]
+            ScannerGCP["GCP (Compute, Storage)"]
+        end
+    end
+
+    subgraph DataAccess ["Data Access Layer"]
+        Models["Data Models"]
+        OutputManager["Output Manager (JSON, HTML, Summary)"]
+    end
+
+    subgraph Infrastructure ["Infrastructure Layer"]
+        AWSClient["AWS SDK Client"]
+        AzureClient["Azure SDK Client"]
+        GCPClient["GCP SDK Client"]
+    end
+
+    %% Flow
+    CLI --> Args
+    Args --> Orchestrator
+    Orchestrator --> ScannerAWS
+    Orchestrator --> ScannerAzure
+    Orchestrator --> ScannerGCP
+    
+    ScannerAWS --> Models
+    ScannerAzure --> Models
+    ScannerGCP --> Models
+    
+    ScannerAWS --> AWSClient
+    ScannerAzure --> AzureClient
+    ScannerGCP --> GCPClient
+    
+    Models --> OutputManager
+    
+    %% External Cloud APIs
+    AWSClient -.-> AWSApi[("AWS Cloud API")]
+    AzureClient -.-> AzureApi[("Azure Cloud API")]
+    GCPClient -.-> GCPApi[("GCP Cloud API")]
+
+    classDef layer fill:#f4f4f4,stroke:#333,stroke-width:2px,color:#333;
+    classDef component fill:#fff,stroke:#666,stroke-width:1px,color:#333;
+    classDef external fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000;
+    
+    class Presentation,BusinessLogic,DataAccess,Infrastructure layer;
+    class CLI,Args,Orchestrator,ScannerAWS,ScannerAzure,ScannerGCP,Models,OutputManager,AWSClient,AzureClient,GCPClient component;
+    class AWSApi,AzureApi,GCPApi external;
 ```
 
 ### Design Patterns
