@@ -29,7 +29,7 @@ setup(
     install_requires=[
         "click==8.1.7",
         "scapy==2.7.1rc1",
-        "requests==2.33.0",
+        "requests==2.34.2",
         "anthropic==1.3.0",
         "sqlalchemy==2.0.29",
         "jinja2==3.1.6",
