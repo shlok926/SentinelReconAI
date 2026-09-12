@@ -22,7 +22,7 @@ boto3==1.34.84
 # Azure SDKs
 azure-identity==1.19.0
 azure-mgmt-compute==30.1.0
-azure-mgmt-storage==21.1.0
+azure-mgmt-storage==25.1.0
 azure-mgmt-subscription==3.1.1
 
 # GCP SDKs
