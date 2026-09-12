@@ -33,7 +33,7 @@ setup(
         "anthropic==1.3.0",
         "sqlalchemy==2.0.29",
         "jinja2==3.1.6",
-        "weasyprint==69.0",
+        "weasyprint==70.0",
         "python-dotenv==1.2.3",
         "cryptography==50.0.1",
         "rich==15.0.0",
