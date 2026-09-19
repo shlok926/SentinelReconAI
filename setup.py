@@ -27,7 +27,7 @@ setup(
     ],
     python_requires=">=3.9",
     install_requires=[
-        "click==8.1.7",
+        "click==8.5.0",
         "scapy==2.7.1rc1",
         "requests==2.34.2",
         "anthropic==1.3.0",
