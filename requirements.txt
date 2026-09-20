@@ -28,4 +28,4 @@ azure-mgmt-subscription==3.1.1
 # GCP SDKs
 google-cloud-compute==1.15.0
 google-cloud-storage==2.14.0
-google-auth==2.27.0
+google-auth==2.58.0
