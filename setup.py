@@ -31,7 +31,7 @@ setup(
         "scapy==2.7.1rc1",
         "requests==2.34.2",
         "anthropic==1.6.0",
-        "sqlalchemy==2.0.29",
+        "sqlalchemy==2.0.54",
         "jinja2==3.1.6",
         "weasyprint==70.0",
         "python-dotenv==1.2.3",
